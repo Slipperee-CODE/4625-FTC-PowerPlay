@@ -27,14 +27,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.Scalar;
+import org.opencv.imgproc.Imgproc;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.openftc.easyopencv.OpenCvPipeline;
+import org.openftc.easyopencv.OpenCvWebcam;
 
 
 /**
@@ -52,7 +64,7 @@ import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="WebcamLinearOpMode", group="Linear Opmode")
 //@Disabled
-public class BasicOpMode_Linear extends LinearOpMode {
+public class WebcamLinearOpMode extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -71,61 +83,6 @@ public class BasicOpMode_Linear extends LinearOpMode {
     double actualAvg2;
     double actualAvg3;
 
-    public class examplePipeline extends OpenCvPipeline{
-
-        public Mat processFrame(Mat input) {
-            // Make a working copy of the input matrix in HSV
-            Mat mat = new Mat();
-            Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
-
-
-
-
-            // NOTE: In OpenCV's implementation,
-            // Hue values are half the real value
-            Scalar lowHSV1 = new Scalar(60, 100, 100);
-            Scalar highHSV1 = new Scalar(71, 255, 255);
-            Mat thresh = new Mat();
-
-
-
-            Core.inRange(mat, lowHSV1, highHSV1, thresh);
-
-            Scalar avg1 = Core.mean(thresh);
-
-            actualAvg1 = avg1.val[0];
-
-
-
-
-            Scalar lowHSV2 = new Scalar(20, 100, 100);
-            Scalar highHSV2 = new Scalar(40, 255, 255);
-            thresh = new Mat();
-
-
-
-            Core.inRange(mat, lowHSV2, highHSV2, thresh);
-
-            Scalar avg2 = Core.mean(thresh);
-
-            actualAvg2 = avg2.val[0];
-
-
-
-            Scalar lowHSV3 = new Scalar(96, 100, 100);
-            Scalar highHSV3 = new Scalar(121, 255, 255);
-            thresh = new Mat();
-
-
-            Core.inRange(mat, lowHSV3, highHSV3, thresh);
-
-            Scalar avg3 = Core.mean(thresh);
-
-            actualAvg3 = avg3.val[0];
-
-
-            return thresh;
-        }
 
     @Override
     public void runOpMode() {
@@ -134,7 +91,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
         RightFront = hardwareMap.dcMotor.get("RightFront");
         RightBack = hardwareMap.dcMotor.get("RightBack");
 
-        SpeedReduction = SpeedReduction/100;
+        SpeedReduction = SpeedReduction / 100;
 
 
         WebcamName webcamName = hardwareMap.get(WebcamName.class, "webcam1");
@@ -162,6 +119,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
 
         telemetry.addData("Status", "Initialized");
 
+        boolean initLoop = true;
 
         while (!opModeIsActive()) {
             telemetry.addData("G", actualAvg1);
@@ -191,34 +149,141 @@ public class BasicOpMode_Linear extends LinearOpMode {
                 telemetry.addData("No Color :( ", colorIAmSeeing);
             }
 
+            /*
+            if (opModeIsActive()){
+                telemetry.addLine("We leaving this loop fr fr");
+                initLoop = false;
+            }
+            */
+
+
             telemetry.update();
         }
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
+
+        webcam1.closeCameraDevice();
         runtime.reset();
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            if (colorIAmSeeing == 1){
-                //Strafe left and forward
 
+            if (colorIAmSeeing == 1) {
+                //strafe left and forward
+                telemetry.addLine("Green has been found");
 
+                Move("left",100,0.6);
+                Move("forward",100,1);
 
-            }
-            else if (colorIAmSeeing == 2){
+                requestOpModeStop();
+
+            } else if (colorIAmSeeing == 2) {
                 //Strafe right and forward
+                telemetry.addLine("Yellow has been found");
 
+                Move("right",100,0.6);
+                Move("forward",100,1);
 
+                requestOpModeStop();
 
-            }
-            else if (colorIAmSeeing == 3){
+            } else if (colorIAmSeeing == 3) {
                 //Go forward
+                telemetry.addLine("Blue has been found");
 
 
+                Move("forward",100,1);
+
+                requestOpModeStop();
 
             }
 
+            telemetry.update();
             idle();
+        }
+    }
+
+    public void Move(String direction, int milliseconds, double wheelPower){
+        if (direction == "forward" || direction == "backward"){
+            if (direction == "backward"){
+                wheelPower = -wheelPower;
+            }
+
+            LeftFront.setPower(wheelPower);
+            LeftBack.setPower(wheelPower);
+            RightFront.setPower(wheelPower);
+            RightBack.setPower(wheelPower);
+            sleep(milliseconds);
+            LeftFront.setPower(0);
+            LeftBack.setPower(0);
+            RightFront.setPower(0);
+            RightBack.setPower(0);
+
+        }
+        else if (direction == "left" || direction == "right"){
+            if (direction == "right"){
+                wheelPower = -wheelPower;
+            }
+
+            LeftFront.setPower(wheelPower);
+            LeftBack.setPower(-wheelPower);
+            RightFront.setPower(-wheelPower);
+            RightBack.setPower(wheelPower);
+            sleep(milliseconds);
+            LeftFront.setPower(0);
+            LeftBack.setPower(0);
+            RightFront.setPower(0);
+            RightBack.setPower(0);
+        }
+    }
+
+    public class examplePipeline extends OpenCvPipeline {
+
+        @Override
+        public Mat processFrame(Mat input) {
+            // Make a working copy of the input matrix in HSV
+            Mat mat = new Mat();
+            Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
+
+
+            // NOTE: In OpenCV's implementation,
+            // Hue values are half the real value
+            Scalar lowHSV1 = new Scalar(60, 100, 100);
+            Scalar highHSV1 = new Scalar(71, 255, 255);
+            Mat thresh = new Mat();
+
+
+            Core.inRange(mat, lowHSV1, highHSV1, thresh);
+
+            Scalar avg1 = Core.mean(thresh);
+
+            actualAvg1 = avg1.val[0];
+
+
+            Scalar lowHSV2 = new Scalar(20, 100, 100);
+            Scalar highHSV2 = new Scalar(40, 255, 255);
+            thresh = new Mat();
+
+
+            Core.inRange(mat, lowHSV2, highHSV2, thresh);
+
+            Scalar avg2 = Core.mean(thresh);
+
+            actualAvg2 = avg2.val[0];
+
+
+            Scalar lowHSV3 = new Scalar(96, 100, 100);
+            Scalar highHSV3 = new Scalar(121, 255, 255);
+            thresh = new Mat();
+
+
+            Core.inRange(mat, lowHSV3, highHSV3, thresh);
+
+            Scalar avg3 = Core.mean(thresh);
+
+            actualAvg3 = avg3.val[0];
+
+
+            return input;
         }
     }
 }

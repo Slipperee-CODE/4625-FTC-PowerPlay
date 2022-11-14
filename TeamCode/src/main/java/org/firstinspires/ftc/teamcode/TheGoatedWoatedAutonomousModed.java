@@ -49,6 +49,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 import org.openftc.easyopencv.OpenCvWebcam;
 
+import static java.lang.Thread.sleep;
+
 @TeleOp(name="TheGoatedWoatedAutonomousModed", group="Iterative Autonomous")
 //@Disabled
 public class TheGoatedWoatedAutonomousModed extends OpMode
@@ -182,10 +184,7 @@ public class TheGoatedWoatedAutonomousModed extends OpMode
 
         }
         else if (colorIAmSeeing == 3){
-            //Go forward
-
-
-
+            //Go forward 
         }
 
 
