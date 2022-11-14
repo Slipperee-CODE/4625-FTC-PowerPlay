@@ -85,7 +85,7 @@ public class TheGoatedWoatedOpMoaded extends OpMode
 
         SpeedReduction = SpeedReduction/100;
 
-        int slideMotorPower = 0.6;
+        float slideMotorPower = 0.6;
 
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
