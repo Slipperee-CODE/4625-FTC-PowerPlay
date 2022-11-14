@@ -68,6 +68,8 @@ public class TheGoatedWoatedOpMoaded extends OpMode
 
     private int linearSlideHeight = 0;
 
+    private double slideMotorPower = 0.6;
+
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -84,8 +86,6 @@ public class TheGoatedWoatedOpMoaded extends OpMode
         spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
 
         SpeedReduction = SpeedReduction/100;
-
-        int slideMotorPower = 0.6;
 
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
