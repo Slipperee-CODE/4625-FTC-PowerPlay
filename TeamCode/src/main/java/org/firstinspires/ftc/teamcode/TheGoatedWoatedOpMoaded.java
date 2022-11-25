@@ -35,6 +35,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -64,11 +65,20 @@ public class TheGoatedWoatedOpMoaded extends OpMode
     private DcMotor LeftBack = null;
     private DcMotor spoolMotor = null;
 
+    private Servo coneGrabber = null;
+
     private float SpeedReduction = 50;
 
-    private int linearSlideHeight = 0;
-
     private double slideMotorPower = 0.6;
+
+    private double armPosition;
+
+    private final static double ARM_HOME = 0.0;
+    private final static double ARM_MIN_RANGE = 0.0;
+    private final static double ARM_MAX_RANGE = 1.0;
+    private final double ARM_SPEED = 0.01;
+
+
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -85,7 +95,13 @@ public class TheGoatedWoatedOpMoaded extends OpMode
         RightBack = hardwareMap.dcMotor.get("RightBack");
         spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
 
+        
+        coneGrabber = hardwareMap.servo.get("coneGrabber");
+        coneGrabber.setPosition(ARM_HOME);
+        armPosition = ARM_HOME;
+
         SpeedReduction = SpeedReduction/100;
+
 
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -155,6 +171,18 @@ public class TheGoatedWoatedOpMoaded extends OpMode
             spoolMotor.setPower(0);
         }
 
+
+        if (gamepad2.dpad_left)
+        {
+            armPosition -= ARM_SPEED;
+        }
+        else if (gamepad2.dpad_right)
+        {
+            armPosition += ARM_SPEED;
+        }
+
+        armPosition = Range.clip(armPosition, ARM_MIN_RANGE, ARM_MAX_RANGE);
+        coneGrabber.setPosition(armPosition);
 
 
         // Denominator is the largest motor power (absolute value) or 1
