@@ -95,7 +95,7 @@ public class TheGoatedWoatedOpMoaded extends OpMode
         RightBack = hardwareMap.dcMotor.get("RightBack");
         spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
 
-        
+
         coneGrabber = hardwareMap.servo.get("coneGrabber");
         coneGrabber.setPosition(ARM_HOME);
         armPosition = ARM_HOME;
