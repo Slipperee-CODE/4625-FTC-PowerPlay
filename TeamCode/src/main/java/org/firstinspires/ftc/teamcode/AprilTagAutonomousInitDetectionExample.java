@@ -51,10 +51,12 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
     double fy = 578.272;
     double cx = 402.145;
     double cy = 221.506;
-    //^^^^^^^^^^^^^ FIX THESE WHEN YOU CAN!!!!!!!!!!!!!!!!
+
 
     // UNITS ARE METERS
-    double tagsize = 0.166;
+    double tagsize = 0.0635;
+
+    //^^^^^^^^^^^^^ FIX THESE WHEN YOU CAN!!!!!!!!!!!!!!!!
 
     int[] ID_TAGS_OF_INTEREST = {0, 1, 2};
 
