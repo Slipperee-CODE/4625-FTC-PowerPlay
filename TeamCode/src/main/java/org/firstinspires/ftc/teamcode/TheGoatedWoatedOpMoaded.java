@@ -339,12 +339,6 @@ public class TheGoatedWoatedOpMoaded extends OpMode
 
     public void movementCode()
     {
-        double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-        double frontLeftPower = (y + x + rx) / denominator;
-        double backLeftPower = (y - x + rx) / denominator;
-        double frontRightPower = (y - x - rx) / denominator;
-        double backRightPower = (y + x - rx) / denominator;
-
         if (DPAD_UP){
             y = Math.min(SpeedReduction,1);
         }
@@ -357,6 +351,13 @@ public class TheGoatedWoatedOpMoaded extends OpMode
         else if (DPAD_RIGHT){
             x = Math.min(SpeedReduction*1.2,1);
         }
+        
+        double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
+        double frontLeftPower = (y + x + rx) / denominator;
+        double backLeftPower = (y - x + rx) / denominator;
+        double frontRightPower = (y - x - rx) / denominator;
+        double backRightPower = (y + x - rx) / denominator;
+
 
         LeftFront.setPower(frontLeftPower*SpeedReduction);
         LeftBack.setPower(backLeftPower*SpeedReduction);
