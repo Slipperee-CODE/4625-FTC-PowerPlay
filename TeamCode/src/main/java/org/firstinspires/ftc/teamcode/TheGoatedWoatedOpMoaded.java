@@ -36,6 +36,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -85,7 +86,7 @@ public class TheGoatedWoatedOpMoaded extends OpMode
     private DcMotor LeftBack = null;
     private DcMotor spoolMotor = null;
 
-    private Servo coneGrabber = null;
+    private CRServo coneGrabber = null;
 
     private float SpeedReduction = 50;
 
@@ -157,15 +158,14 @@ public class TheGoatedWoatedOpMoaded extends OpMode
 
 
 
-        coneGrabber = hardwareMap.servo.get("coneGrabber");
-        coneGrabber.setPosition(ARM_HOME);
-        armPosition = ARM_HOME;
+        coneGrabber = hardwareMap.crservo.get("coneGrabber");
+        armPosition = 0.0f;
 
         SpeedReduction = SpeedReduction/100;
 
 
 
-        distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
+        //distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
 
 
         WebcamName webcamName = hardwareMap.get(WebcamName.class, "webcam1");
@@ -244,7 +244,7 @@ public class TheGoatedWoatedOpMoaded extends OpMode
         }
 
 
-        distanceSensorConeCheckCode();
+        //distanceSensorConeCheckCode();
 
         grabberServoCode();
         linearSlideCode();
@@ -312,15 +312,15 @@ public class TheGoatedWoatedOpMoaded extends OpMode
     {
         if (DPAD_LEFT2)
         {
-            armPosition -= ARM_SPEED;
+            coneGrabber.setPower(1);
         }
         else if (DPAD_RIGHT2)
         {
-            armPosition += ARM_SPEED;
+            coneGrabber.setPower(-1);
         }
 
-        armPosition = Range.clip(armPosition, ARM_MIN_RANGE, ARM_MAX_RANGE);
-        coneGrabber.setPosition(armPosition);
+        //armPosition = Range.clip(armPosition, ARM_MIN_RANGE, ARM_MAX_RANGE);
+        //coneGrabber.setPosition(armPosition);
     }
 
     public void linearSlideCode()

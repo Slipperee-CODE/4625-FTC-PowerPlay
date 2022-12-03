@@ -124,10 +124,10 @@ public class WebcamLinearOpMode extends LinearOpMode {
         while (!opModeIsActive()) {
             telemetry.addData("G", actualAvg1);
             telemetry.addData("Y", actualAvg2);
-            telemetry.addData("B", actualAvg3);
+            telemetry.addData("P", actualAvg3);
 
 
-            if (actualAvg1 > 15 || actualAvg2 > 15 || actualAvg3 > 15) {
+            if (actualAvg1 > 6 || actualAvg2 > 6 || actualAvg3 > 6) {
                 if (actualAvg1 > actualAvg2 && actualAvg1 > actualAvg3) {
                     colorIAmSeeing = 1;
                 } else if (actualAvg2 > actualAvg1 && actualAvg2 > actualAvg3) {
@@ -144,7 +144,7 @@ public class WebcamLinearOpMode extends LinearOpMode {
             } else if (colorIAmSeeing == 2) {
                 telemetry.addData("Yellow", colorIAmSeeing);
             } else if (colorIAmSeeing == 3) {
-                telemetry.addData("Blue", colorIAmSeeing);
+                telemetry.addData("Purple", colorIAmSeeing);
             } else {
                 telemetry.addData("No Color :( ", colorIAmSeeing);
             }
@@ -172,8 +172,8 @@ public class WebcamLinearOpMode extends LinearOpMode {
                 //strafe left and forward
                 telemetry.addLine("Green has been found");
 
-                Move("left",100,0.6);
-                Move("forward",100,1);
+                Move("left",1000,0.6);
+                Move("forward",300,0.6);
 
                 requestOpModeStop();
 
@@ -181,17 +181,17 @@ public class WebcamLinearOpMode extends LinearOpMode {
                 //Strafe right and forward
                 telemetry.addLine("Yellow has been found");
 
-                Move("right",100,0.6);
-                Move("forward",100,1);
+                Move("right",1000,0.6);
+                Move("forward",300,0.6);
 
                 requestOpModeStop();
 
             } else if (colorIAmSeeing == 3) {
                 //Go forward
-                telemetry.addLine("Blue has been found");
+                telemetry.addLine("Purple has been found");
 
 
-                Move("forward",100,1);
+                Move("forward",300,0.6);
 
                 requestOpModeStop();
 
@@ -220,7 +220,7 @@ public class WebcamLinearOpMode extends LinearOpMode {
 
         }
         else if (direction == "left" || direction == "right"){
-            if (direction == "right"){
+            if (direction == "left"){
                 wheelPower = -wheelPower;
             }
 
@@ -271,8 +271,8 @@ public class WebcamLinearOpMode extends LinearOpMode {
             actualAvg2 = avg2.val[0];
 
 
-            Scalar lowHSV3 = new Scalar(96, 100, 100);
-            Scalar highHSV3 = new Scalar(121, 255, 255);
+            Scalar lowHSV3 = new Scalar(144, 100, 100);
+            Scalar highHSV3 = new Scalar(155, 255, 255);
             thresh = new Mat();
 
 
