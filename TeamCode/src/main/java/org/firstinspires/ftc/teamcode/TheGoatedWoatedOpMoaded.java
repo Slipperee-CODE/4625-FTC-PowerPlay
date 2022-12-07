@@ -171,7 +171,7 @@ public class TheGoatedWoatedOpMoaded extends OpMode
         //distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
 
 
-        WebcamName webcamName = hardwareMap.get(WebcamName.class, "webcam1");
+        //WebcamName webcamName = hardwareMap.get(WebcamName.class, "webcam1");
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam1 = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam1"), cameraMonitorViewId);
 
