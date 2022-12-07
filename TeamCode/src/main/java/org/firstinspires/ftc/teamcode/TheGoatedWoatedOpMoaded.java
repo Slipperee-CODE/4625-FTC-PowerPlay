@@ -86,7 +86,7 @@ public class TheGoatedWoatedOpMoaded extends OpMode
     private DcMotor LeftBack = null;
     private DcMotor spoolMotor = null;
 
-    private CRServo coneGrabber = null;
+    private Servo coneGrabber = null;
 
     private float SpeedReduction = 50;
 
@@ -158,7 +158,7 @@ public class TheGoatedWoatedOpMoaded extends OpMode
 
 
 
-        coneGrabber = hardwareMap.crservo.get("coneGrabber");
+        coneGrabber = hardwareMap.servo.get("coneGrabber");
         armPosition = 0.0f;
 
         SpeedReduction = SpeedReduction/100;
@@ -312,15 +312,17 @@ public class TheGoatedWoatedOpMoaded extends OpMode
     {
         if (DPAD_LEFT2)
         {
-            coneGrabber.setPower(1);
+            //coneGrabber.setPosition(1);
+            armPosition -= 0.1;
         }
         else if (DPAD_RIGHT2)
         {
-            coneGrabber.setPower(-1);
+            //coneGrabber.setPosition(-1);
+            armPosition += 0.1;
         }
 
-        //armPosition = Range.clip(armPosition, ARM_MIN_RANGE, ARM_MAX_RANGE);
-        //coneGrabber.setPosition(armPosition);
+        armPosition = Range.clip(armPosition, ARM_MIN_RANGE, ARM_MAX_RANGE);
+        coneGrabber.setPosition(armPosition);
     }
 
     public void linearSlideCode()
