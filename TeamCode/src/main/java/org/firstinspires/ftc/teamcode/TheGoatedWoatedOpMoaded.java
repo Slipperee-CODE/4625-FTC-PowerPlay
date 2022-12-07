@@ -160,7 +160,7 @@ public class TheGoatedWoatedOpMoaded extends OpMode
 
 
         coneGrabber = hardwareMap.servo.get("coneGrabber");
-        //coneGrabber = hardwareMap.crservo.get("coneGrabber");
+        //coneGrabber = hardwareMap.crservo.get("coneGrabber"); NEED TO FIND A Continuous SERVO?
 
         armPosition = 0.0f;
 
