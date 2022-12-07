@@ -87,6 +87,7 @@ public class TheGoatedWoatedOpMoaded extends OpMode
     private DcMotor spoolMotor = null;
 
     private Servo coneGrabber = null;
+    //private CRServo coneGrabber = null;
 
     private float SpeedReduction = 50;
 
@@ -159,6 +160,8 @@ public class TheGoatedWoatedOpMoaded extends OpMode
 
 
         coneGrabber = hardwareMap.servo.get("coneGrabber");
+        //coneGrabber = hardwareMap.crservo.get("coneGrabber");
+
         armPosition = 0.0f;
 
         SpeedReduction = SpeedReduction/100;
@@ -312,13 +315,13 @@ public class TheGoatedWoatedOpMoaded extends OpMode
     {
         if (DPAD_LEFT2)
         {
-            //coneGrabber.setPosition(1);
-            armPosition -= 0.1;
+            //coneGrabber.setPower(1);
+            armPosition -= ARM_SPEED;
         }
         else if (DPAD_RIGHT2)
         {
-            //coneGrabber.setPosition(-1);
-            armPosition += 0.1;
+            //coneGrabber.setPower(-1);
+            armPosition += ARM_SPEED;
         }
 
         armPosition = Range.clip(armPosition, ARM_MIN_RANGE, ARM_MAX_RANGE);
