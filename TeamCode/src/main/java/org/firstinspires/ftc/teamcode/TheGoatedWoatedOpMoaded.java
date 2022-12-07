@@ -323,6 +323,10 @@ public class TheGoatedWoatedOpMoaded extends OpMode
             //coneGrabber.setPower(-1);
             armPosition += ARM_SPEED;
         }
+        else
+        {
+            //coneGrabber.setPower(0);
+        }
 
         armPosition = Range.clip(armPosition, ARM_MIN_RANGE, ARM_MAX_RANGE);
         coneGrabber.setPosition(armPosition);
