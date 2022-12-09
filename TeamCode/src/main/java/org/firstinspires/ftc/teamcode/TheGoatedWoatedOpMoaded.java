@@ -117,6 +117,8 @@ public class TheGoatedWoatedOpMoaded extends OpMode
     boolean DPAD_RIGHT2;
 
     boolean gamepad1B;
+    boolean gamepad2TopLeftTrigger;
+    boolean gamepad2TopRightTrigger;
 
     double heightOfCone = 7;
 
@@ -161,7 +163,6 @@ public class TheGoatedWoatedOpMoaded extends OpMode
 
         coneGrabber = hardwareMap.servo.get("coneGrabber");
         //coneGrabber = hardwareMap.crservo.get("coneGrabber"); NEED TO FIND A Continuous SERVO?
-
         armPosition = 0.0f;
 
         SpeedReduction = SpeedReduction/100;
@@ -197,6 +198,7 @@ public class TheGoatedWoatedOpMoaded extends OpMode
         RightFront.setDirection(DcMotorSimple.Direction.REVERSE);
         RightBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        spoolMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
     }
@@ -239,6 +241,8 @@ public class TheGoatedWoatedOpMoaded extends OpMode
         DPAD_RIGHT2 = gamepad2.dpad_right;
 
         gamepad1B = gamepad1.b;
+        gamepad2TopLeftTrigger = gamepad2.left_bumper;
+        gamepad2TopRightTrigger = gamepad2.right_bumper;
 
 
         if (gamepad1B == true)
@@ -249,7 +253,20 @@ public class TheGoatedWoatedOpMoaded extends OpMode
 
         //distanceSensorConeCheckCode();
 
-        grabberServoCode();
+        if (gamepad2.dpad_left)
+        {
+            coneGrabber.setPosition(1);
+            telemetry.addLine("Servo 1 Thing");
+            telemetry.update();
+        }
+        else if (gamepad2.dpad_right)
+        {
+            coneGrabber.setPosition(-1);
+            telemetry.addLine("Servo 2 Thing");
+            telemetry.update();
+        }
+
+        //grabberServoCode();
         linearSlideCode();
         movementCode();
 
@@ -336,6 +353,12 @@ public class TheGoatedWoatedOpMoaded extends OpMode
     {
         if (DPAD_UP2){
             spoolMotor.setPower(-slideMotorPower);
+        }
+        else if (gamepad2TopLeftTrigger){
+            spoolMotor.setPower(-slideMotorPower/2);
+        }
+        else if (gamepad2TopRightTrigger){
+            spoolMotor.setPower(slideMotorPower/2);
         }
         else if (DPAD_DOWN2) {
             spoolMotor.setPower(slideMotorPower);

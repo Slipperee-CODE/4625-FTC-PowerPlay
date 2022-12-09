@@ -24,6 +24,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.apriltag.AprilTagDetection;
@@ -72,6 +73,7 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
     @Override
     public void runOpMode()
     {
+
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam1"), cameraMonitorViewId);
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
@@ -102,6 +104,10 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
         //spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
 
         SpeedReduction = SpeedReduction/100;
+
+        RightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        RightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+
         /*
          * The INIT-loop:
          * This REPLACES waitForStart!
@@ -206,16 +212,16 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
 
             if (tagOfInterest.id == ID_TAGS_OF_INTEREST[0]) //First Image
             {
-                Move("left",100,0.6);
-                Move("forward",100,1);
+                Move("left",1250,0.6);
+                Move("forward",250,1);
             }
             else if(tagOfInterest.id == ID_TAGS_OF_INTEREST[1]) //Second Image
             {
-                Move("forward",100,1);
+                Move("forward",250,1);
             }
             else if (tagOfInterest.id == ID_TAGS_OF_INTEREST[2]) //Third Image
             {
-                Move("right",100,0.6);
+                Move("right",1250,0.6);
                 Move("forward",100,1);
             }
         }
