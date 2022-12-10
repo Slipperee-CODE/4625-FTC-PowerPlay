@@ -120,6 +120,10 @@ public class TheGoatedWoatedOpMoaded extends OpMode
     boolean gamepad2TopLeftTrigger;
     boolean gamepad2TopRightTrigger;
 
+    boolean b2;
+
+    int state = 0;
+
     double heightOfCone = 7;
 
     int cameraWidth = 640;
@@ -244,6 +248,8 @@ public class TheGoatedWoatedOpMoaded extends OpMode
         gamepad2TopLeftTrigger = gamepad2.left_bumper;
         gamepad2TopRightTrigger = gamepad2.right_bumper;
 
+        b2 = gamepad2.b;
+
 
         if (gamepad1B == true)
         {
@@ -253,20 +259,10 @@ public class TheGoatedWoatedOpMoaded extends OpMode
 
         //distanceSensorConeCheckCode();
 
-        if (gamepad2.dpad_left)
-        {
-            coneGrabber.setPosition(1);
-            telemetry.addLine("Servo 1 Thing");
-            telemetry.update();
-        }
-        else if (gamepad2.dpad_right)
-        {
-            coneGrabber.setPosition(-1);
-            telemetry.addLine("Servo 2 Thing");
-            telemetry.update();
-        }
 
-        //grabberServoCode();
+
+
+        grabberServoCode();
         linearSlideCode();
         movementCode();
 
@@ -281,6 +277,7 @@ public class TheGoatedWoatedOpMoaded extends OpMode
     {
 
     }
+
 
     public void StrafeToConeCode()
     {
@@ -330,23 +327,33 @@ public class TheGoatedWoatedOpMoaded extends OpMode
 
     public void grabberServoCode()
     {
-        if (DPAD_LEFT2)
+        if (b2)
         {
-            //coneGrabber.setPower(1);
-            armPosition -= ARM_SPEED;
-        }
-        else if (DPAD_RIGHT2)
-        {
-            //coneGrabber.setPower(-1);
-            armPosition += ARM_SPEED;
-        }
-        else
-        {
-            //coneGrabber.setPower(0);
-        }
+            
+            if (state == 1)
+            {
+                coneGrabber.setPosition(1);
+                telemetry.addLine("Servo 1 Thing");
+                telemetry.update();
+            }
+            else if (state == 0)
+            {
+                coneGrabber.setPosition(-1);
+                telemetry.addLine("Servo 2 Thing");
+                telemetry.update();
+            }
 
-        armPosition = Range.clip(armPosition, ARM_MIN_RANGE, ARM_MAX_RANGE);
-        coneGrabber.setPosition(armPosition);
+
+            if (state < 1)
+            {
+                state++;
+            }
+            else
+            {
+                state = 0;
+            }
+
+        }
     }
 
     public void linearSlideCode()
