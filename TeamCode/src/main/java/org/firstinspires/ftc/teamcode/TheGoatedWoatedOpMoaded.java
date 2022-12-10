@@ -329,7 +329,7 @@ public class TheGoatedWoatedOpMoaded extends OpMode
     {
         if (b2)
         {
-            
+
             if (state == 1)
             {
                 coneGrabber.setPosition(1);
