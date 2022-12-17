@@ -357,6 +357,7 @@ public class TheGoatedWoatedOpMoaded extends OpMode
                 state = 0;
             }
 
+            sleep(500);
         }
     }
 
