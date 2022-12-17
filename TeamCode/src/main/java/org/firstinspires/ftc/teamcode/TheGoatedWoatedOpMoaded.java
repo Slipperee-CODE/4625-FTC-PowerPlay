@@ -177,6 +177,8 @@ public class TheGoatedWoatedOpMoaded extends OpMode
 
 
         //WebcamName webcamName = hardwareMap.get(WebcamName.class, "webcam1");
+
+        /*
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam1 = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam1"), cameraMonitorViewId);
 
@@ -193,6 +195,7 @@ public class TheGoatedWoatedOpMoaded extends OpMode
 
             }
         });
+        */
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -253,7 +256,7 @@ public class TheGoatedWoatedOpMoaded extends OpMode
 
         if (gamepad1B == true)
         {
-            StrafeToConeCode();
+            //StrafeToConeCode();
         }
 
 
@@ -278,7 +281,7 @@ public class TheGoatedWoatedOpMoaded extends OpMode
 
     }
 
-
+    /*
     public void StrafeToConeCode()
     {
         double movementNum = autoOrientPIDControl((cameraWidth/2) - intakeOffset, avgX);
@@ -293,6 +296,7 @@ public class TheGoatedWoatedOpMoaded extends OpMode
             Move("right", Math.abs( (int) (movementNum) / coneAlignmentConstant), 0.6);
         }
     }
+     */
 
     public double autoOrientPIDControl(double reference, double state)
     {
