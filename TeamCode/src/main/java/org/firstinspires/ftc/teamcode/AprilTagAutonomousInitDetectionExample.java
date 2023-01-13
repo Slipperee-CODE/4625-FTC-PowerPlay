@@ -212,7 +212,7 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
 
             if (tagOfInterest.id == ID_TAGS_OF_INTEREST[0]) //First Image
             {
-                Move("left",1300,0.6);
+                Move("right",1300,0.6);
                 Move("forward",250,1);
             }
             else if(tagOfInterest.id == ID_TAGS_OF_INTEREST[1]) //Second Image
@@ -221,7 +221,7 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
             }
             else if (tagOfInterest.id == ID_TAGS_OF_INTEREST[2]) //Third Image
             {
-                Move("right",1300,0.6);
+                Move("left",1300,0.6);
                 Move("forward",250,1);
             }
         }
