@@ -22,6 +22,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -34,8 +35,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-@TeleOp(name="! AprilTagAutonomous", group="Linear Autonomous")
-public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
+@Autonomous(name="Left Side Parking Auto", group="Linear Autonomous")
+public class LeftSideParkingAuto extends LinearOpMode
 {
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
@@ -107,6 +108,7 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
 
         RightFront.setDirection(DcMotorSimple.Direction.REVERSE);
         RightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        LeftBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
         /*
          * The INIT-loop:
@@ -212,23 +214,20 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
 
             if (tagOfInterest.id == ID_TAGS_OF_INTEREST[0]) //First Image
             {
-                Move("right",1300,0.6);
-                Move("forward",250,1);
+                Move("left",1100,0.6);
+                Move("forward",400,0.7);
             }
             else if(tagOfInterest.id == ID_TAGS_OF_INTEREST[1]) //Second Image
             {
-                Move("forward",250,1);
+                Move("left", 125, 0.5);
+                Move("forward",400,0.7);
             }
             else if (tagOfInterest.id == ID_TAGS_OF_INTEREST[2]) //Third Image
             {
-                Move("left",1300,0.6);
-                Move("forward",250,1);
+                Move("right",700,0.6);
+                Move("forward",400,0.7);
             }
         }
-
-
-        /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
-        while (opModeIsActive()) {sleep(20);}
     }
 
     void tagToTelemetry(AprilTagDetection detection)
@@ -260,7 +259,7 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
 
         }
         else if (direction == "left" || direction == "right"){
-            if (direction == "right"){
+            if (direction == "left"){
                 wheelPower = -wheelPower;
             }
 

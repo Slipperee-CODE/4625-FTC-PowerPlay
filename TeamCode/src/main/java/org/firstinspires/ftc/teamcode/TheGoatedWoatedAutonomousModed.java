@@ -52,7 +52,7 @@ import org.openftc.easyopencv.OpenCvWebcam;
 import static java.lang.Thread.sleep;
 
 @TeleOp(name="TheGoatedWoatedAutonomousModed", group="Iterative Autonomous")
-//@Disabled
+@Disabled
 public class TheGoatedWoatedAutonomousModed extends OpMode
 {
     // Declare OpMode members.

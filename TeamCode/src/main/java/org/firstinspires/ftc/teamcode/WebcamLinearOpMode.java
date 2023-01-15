@@ -63,7 +63,7 @@ import org.openftc.easyopencv.OpenCvWebcam;
  */
 
 @TeleOp(name="WebcamLinearOpMode", group="Linear Opmode")
-//@Disabled
+@Disabled
 public class WebcamLinearOpMode extends LinearOpMode {
 
     // Declare OpMode members.

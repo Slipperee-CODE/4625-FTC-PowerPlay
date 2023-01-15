@@ -95,11 +95,12 @@ public class CleanerTeleop extends OpMode
     @Override
     public void init()
     {
-        LeftFront = hardwareMap.dcMotor.get("LeftFront");
-        LeftBack = hardwareMap.dcMotor.get("LeftBack");
-        RightFront = hardwareMap.dcMotor.get("RightFront");
-        RightBack = hardwareMap.dcMotor.get("RightBack");
-        spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
+        LeftFront = hardwareMap.dcMotor.get("LeftFront"); // 2
+        LeftBack = hardwareMap.dcMotor.get("LeftBack"); // 3
+        RightFront = hardwareMap.dcMotor.get("RightFront"); // 0
+        RightBack = hardwareMap.dcMotor.get("RightBack"); // 1
+
+        spoolMotor = hardwareMap.dcMotor.get("spoolMotor"); //
 
 
         coneGrabber = hardwareMap.servo.get("coneGrabber");
@@ -110,6 +111,7 @@ public class CleanerTeleop extends OpMode
 
         RightFront.setDirection(DcMotorSimple.Direction.REVERSE);
         RightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        LeftBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
         spoolMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -132,9 +134,9 @@ public class CleanerTeleop extends OpMode
     {
         y = -gamepad1.left_stick_y; // Remember, this is reversed!
         x = gamepad1.left_stick_x;
-        rx = gamepad1.right_stick_x;
+        rx = -gamepad1.right_stick_x;
 
-        linearSlideY = gamepad2.left_stick_x;
+        linearSlideY = gamepad2.left_stick_y;
 
 
         grabberServoCode();
@@ -159,10 +161,10 @@ public class CleanerTeleop extends OpMode
         }
 
         double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-        double frontLeftPower = (y + x + rx) / denominator;
-        double backLeftPower = (y - x + rx) / denominator;
-        double frontRightPower = (y - x - rx) / denominator;
-        double backRightPower = (y + x - rx) / denominator;
+        double frontLeftPower = (y + x - rx) / denominator;
+        double backLeftPower = (y - x - rx) / denominator;
+        double frontRightPower = (y - x + rx) / denominator;
+        double backRightPower = (y + x + rx) / denominator;
 
 
         LeftFront.setPower(frontLeftPower*SpeedReduction);
@@ -178,13 +180,13 @@ public class CleanerTeleop extends OpMode
         {
             if (clawServoState == 1)
             {
-                coneGrabber.setPosition(1);
+                coneGrabber.setPosition(0.5);
                 telemetry.addLine("Servo 1 Thing");
                 telemetry.update();
             }
             else if (clawServoState == 0)
             {
-                coneGrabber.setPosition(-1);
+                coneGrabber.setPosition(-0.5);
                 telemetry.addLine("Servo 2 Thing");
                 telemetry.update();
             }

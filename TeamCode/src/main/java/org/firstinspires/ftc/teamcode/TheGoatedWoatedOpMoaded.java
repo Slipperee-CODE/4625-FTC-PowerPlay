@@ -73,7 +73,7 @@ import java.lang.*;
  */
 
 @TeleOp(name="! ! TheGoatedWoatedOpMoaded5.5", group="Iterative Opmode")
-//@Disabled
+@Disabled
 public class TheGoatedWoatedOpMoaded extends OpMode
 {
     // Declare OpMode members.
