@@ -166,7 +166,7 @@ public class CleanerTeleop extends OpMode
         double frontRightPower = (y - x + rx) / denominator;
         double backRightPower = (y + x + rx) / denominator;
 
-        
+
         if (gamepad1.right_bumper){
 
             LeftFront.setPower(frontLeftPower);
