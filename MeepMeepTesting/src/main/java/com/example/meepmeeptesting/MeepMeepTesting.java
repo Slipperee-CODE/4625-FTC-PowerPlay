@@ -24,15 +24,19 @@ public class MeepMeepTesting {
                         drive.trajectorySequenceBuilder(new Pose2d(38, -61.5, Math.toRadians(90)))
 
 
+
                                 .strafeLeft(4.5)
                                 .forward(50)
 
 
-                                .strafeLeft(10)
-                                .forward(5)
-                                .back(5)
-                                .strafeRight(12.5)
+                                .splineTo(new Vector2d(28, -3), 45)   
 
+                                //.strafeLeft(10)
+                                //.forward(5)
+                                //.back(5)
+                                //.strafeRight(12.5)
+
+                                /*
 
                                 .turn(Math.toRadians(-90))
                                 .forward(30)
@@ -57,9 +61,10 @@ public class MeepMeepTesting {
                                 // Parks on the Right
                                 .forward(23)
 
-
+                                */
 
                                 //.splineTo(new Vector2d(30, 30), 0)
+
                                 //some random comment for the sake of testing
                                 .build()
                 );
