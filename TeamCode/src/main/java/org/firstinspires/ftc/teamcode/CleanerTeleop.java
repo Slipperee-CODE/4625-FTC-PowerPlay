@@ -58,7 +58,7 @@ import java.util.List;
 import java.lang.*;
 
 
-@TeleOp(name="CleanerTeleop", group="Iterative Opmode")
+@TeleOp(name="CleanestGreenestMeanestTeleop", group="Iterative Opmode")
 
 
 //@Disabled
@@ -91,6 +91,9 @@ public class CleanerTeleop extends OpMode
 
     int clawServoState = 0;
 
+    public static double servoClawReleasedPos = 0.75;
+    public static double servoClawPulledInPos = -0.75;
+
 
     @Override
     public void init()
@@ -99,6 +102,11 @@ public class CleanerTeleop extends OpMode
         LeftBack = hardwareMap.dcMotor.get("LeftBack"); // 3
         RightFront = hardwareMap.dcMotor.get("RightFront"); // 0
         RightBack = hardwareMap.dcMotor.get("RightBack"); // 1
+
+        LeftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        LeftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         spoolMotor = hardwareMap.dcMotor.get("spoolMotor"); //
 
@@ -111,7 +119,7 @@ public class CleanerTeleop extends OpMode
 
         RightFront.setDirection(DcMotorSimple.Direction.REVERSE);
         RightBack.setDirection(DcMotorSimple.Direction.REVERSE);
-        LeftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        //LeftBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
         spoolMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -184,6 +192,20 @@ public class CleanerTeleop extends OpMode
 
         }
 
+
+        if (gamepad1.a){
+            int motorPosition = LeftFront.getCurrentPosition();
+            telemetry.addData("MotorPos",motorPosition);
+            motorPosition = RightFront.getCurrentPosition();
+            telemetry.addData("MotorPos",motorPosition);
+            motorPosition = RightBack.getCurrentPosition();
+            telemetry.addData("MotorPos",motorPosition);
+            motorPosition = LeftBack.getCurrentPosition();
+            telemetry.addData("MotorPos",motorPosition);
+            telemetry.update();
+        }
+
+
     }
 
 
@@ -193,13 +215,13 @@ public class CleanerTeleop extends OpMode
         {
             if (clawServoState == 1)
             {
-                coneGrabber.setPosition(0.5);
+                coneGrabber.setPosition(servoClawPulledInPos);
                 telemetry.addLine("Servo 1 Thing");
                 telemetry.update();
             }
             else if (clawServoState == 0)
             {
-                coneGrabber.setPosition(-0.5);
+                coneGrabber.setPosition(servoClawReleasedPos);
                 telemetry.addLine("Servo 2 Thing");
                 telemetry.update();
             }

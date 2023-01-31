@@ -69,6 +69,7 @@ public class ItIsTimeToAutomaticallyTurn extends LinearOpMode
         }
 
         //Insert code to do stuff here
+
         Turn(90);
 
     }
@@ -89,7 +90,7 @@ public class ItIsTimeToAutomaticallyTurn extends LinearOpMode
 
     double GetAngle()
     {
-        Orientation orientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+        Orientation orientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
 
         double deltaAngle = orientation.firstAngle - lastAngle.firstAngle;
 
@@ -104,7 +105,6 @@ public class ItIsTimeToAutomaticallyTurn extends LinearOpMode
         currentAngle += deltaAngle;
         lastAngle = orientation;
         telemetry.addData("gyro rotation", orientation.firstAngle);
-        telemetry.update();
         return currentAngle;
     }
 
@@ -115,7 +115,7 @@ public class ItIsTimeToAutomaticallyTurn extends LinearOpMode
         double error = degrees;
 
         while (opModeIsActive() && Math.abs(error) > 2){
-            double motorPower = (error < 0 ? -0.3 : 0.3);
+            double motorPower = (error < 0 ? -0.2 : 0.2);
             PowerAllTheMotors(motorPower, motorPower, -motorPower, -motorPower);
             error = degrees - GetAngle();
             telemetry.addData("error", error);

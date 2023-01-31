@@ -26,6 +26,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.apriltag.AprilTagDetection;
@@ -68,8 +69,13 @@ public class LeftSideParkingAuto extends LinearOpMode
     private DcMotor RightBack = null;
     private DcMotor LeftFront = null;
     private DcMotor LeftBack = null;
+    private DcMotor spoolMotor = null;
+    private Servo coneGrabber = null;
 
     private float SpeedReduction = 50;
+
+    public static double servoClawReleasedPos = 0.7;
+    public static double servoClawPulledInPos = -0.7;
 
     @Override
     public void runOpMode()
@@ -102,13 +108,17 @@ public class LeftSideParkingAuto extends LinearOpMode
         LeftBack = hardwareMap.dcMotor.get("LeftBack");
         RightFront = hardwareMap.dcMotor.get("RightFront");
         RightBack = hardwareMap.dcMotor.get("RightBack");
-        //spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
+        coneGrabber = hardwareMap.servo.get("coneGrabber");
+        spoolMotor = hardwareMap.dcMotor.get("spoolMotor");
 
         SpeedReduction = SpeedReduction/100;
 
         RightFront.setDirection(DcMotorSimple.Direction.REVERSE);
         RightBack.setDirection(DcMotorSimple.Direction.REVERSE);
         LeftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        spoolMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         /*
          * The INIT-loop:
@@ -214,18 +224,205 @@ public class LeftSideParkingAuto extends LinearOpMode
 
             if (tagOfInterest.id == ID_TAGS_OF_INTEREST[0]) //First Image
             {
-                Move("left",1100,0.6);
-                Move("forward",400,0.7);
+
+
+                spoolMotor.setPower(-0.6);
+                sleep(500);
+                spoolMotor.setPower(0);
+
+                Move("forward", 100, 0.5);
+
+                spoolMotor.setPower(0.6);
+                sleep(500);
+                spoolMotor.setPower(0);
+
+                sleep(500);
+
+                coneGrabber.setPosition(servoClawReleasedPos);
+
+                sleep(500);
+
+                spoolMotor.setPower(-0.6);
+                sleep(1000);
+                spoolMotor.setPower(0);
+
+                Move("left", 120, 0.5);
+                Move("forward", 2300, 0.5);
+                Move("backward", 400, 0.5);
+
+                sleep(500);
+
+                Move("right", 500, 0.5);
+
+                spoolMotor.setPower(-0.6);
+                sleep(1750);
+                spoolMotor.setPower(0);
+
+                Move("forward",125,0.5);
+
+                sleep(200);
+
+                spoolMotor.setPower(0.6);
+                sleep(250);
+                spoolMotor.setPower(0);
+
+                sleep(500);
+
+                coneGrabber.setPosition(servoClawPulledInPos);
+
+                sleep(500);
+
+                spoolMotor.setPower(-0.6);
+                sleep(250);
+                spoolMotor.setPower(0);
+
+                sleep(100);
+
+                Move("backward",125,0.5);
+
+                sleep(100);
+
+                spoolMotor.setPower(0.6);
+                sleep(1750);
+                spoolMotor.setPower(0);
+
+                //Move("left",1100,0.6);
+                //Move("forward",400,0.7);
             }
             else if(tagOfInterest.id == ID_TAGS_OF_INTEREST[1]) //Second Image
             {
-                Move("left", 125, 0.5);
-                Move("forward",400,0.7);
+
+                spoolMotor.setPower(-0.6);
+                sleep(500);
+                spoolMotor.setPower(0);
+
+                Move("forward", 100, 0.5);
+
+                spoolMotor.setPower(0.6);
+                sleep(500);
+                spoolMotor.setPower(0);
+
+                sleep(500);
+
+                coneGrabber.setPosition(servoClawReleasedPos);
+
+                sleep(500);
+
+                spoolMotor.setPower(-0.6);
+                sleep(1000);
+                spoolMotor.setPower(0);
+
+                Move("left", 120, 0.5);
+                Move("forward", 2300, 0.5);
+                Move("backward", 400, 0.5);
+
+                sleep(500);
+
+                Move("right", 500, 0.5);
+
+                spoolMotor.setPower(-0.6);
+                sleep(1750);
+                spoolMotor.setPower(0);
+
+                Move("forward",125,0.5);
+
+                sleep(200);
+
+                spoolMotor.setPower(0.6);
+                sleep(250);
+                spoolMotor.setPower(0);
+
+                sleep(500);
+
+                coneGrabber.setPosition(servoClawPulledInPos);
+
+                sleep(500);
+
+                spoolMotor.setPower(-0.6);
+                sleep(250);
+                spoolMotor.setPower(0);
+
+                sleep(100);
+
+                Move("backward",125,0.5);
+
+                sleep(100);
+
+                spoolMotor.setPower(0.6);
+                sleep(1750);
+                spoolMotor.setPower(0);
+
+
+
+                //Move("left", 125, 0.5);
+                //Move("forward",400,0.7);
             }
             else if (tagOfInterest.id == ID_TAGS_OF_INTEREST[2]) //Third Image
             {
-                Move("right",700,0.6);
-                Move("forward",400,0.7);
+
+                spoolMotor.setPower(-0.6);
+                sleep(500);
+                spoolMotor.setPower(0);
+
+                Move("forward", 100, 0.5);
+
+                spoolMotor.setPower(0.6);
+                sleep(500);
+                spoolMotor.setPower(0);
+
+                sleep(500);
+
+                coneGrabber.setPosition(servoClawReleasedPos);
+
+                sleep(500);
+
+                spoolMotor.setPower(-0.6);
+                sleep(1000);
+                spoolMotor.setPower(0);
+
+                Move("left", 120, 0.5);
+                Move("forward", 2300, 0.5);
+                Move("backward", 400, 0.5);
+
+                sleep(500);
+
+                Move("right", 500, 0.5);
+
+                spoolMotor.setPower(-0.6);
+                sleep(1750);
+                spoolMotor.setPower(0);
+
+                Move("forward",125,0.5);
+
+                sleep(200);
+
+                spoolMotor.setPower(0.6);
+                sleep(250);
+                spoolMotor.setPower(0);
+
+                sleep(500);
+
+                coneGrabber.setPosition(servoClawPulledInPos);
+
+                sleep(500);
+
+                spoolMotor.setPower(-0.6);
+                sleep(250);
+                spoolMotor.setPower(0);
+
+                sleep(100);
+
+                Move("backward",125,0.5);
+
+                sleep(100);
+
+                spoolMotor.setPower(0.6);
+                sleep(1750);
+                spoolMotor.setPower(0);
+
+
+                //Move("right",700,0.6);
+                //Move("forward",400,0.7);
             }
         }
     }
