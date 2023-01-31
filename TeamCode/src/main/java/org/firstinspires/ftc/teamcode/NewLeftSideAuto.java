@@ -23,7 +23,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -36,8 +35,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-@Autonomous(name="Left Side Parking Auto", group="Linear Autonomous")
-public class LeftSideParkingAuto extends LinearOpMode
+@Autonomous(name="NewLeftSideAuto", group="Linear Autonomous")
+public class NewLeftSideAuto extends LinearOpMode
 {
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
@@ -224,69 +223,20 @@ public class LeftSideParkingAuto extends LinearOpMode
 
             if (tagOfInterest.id == ID_TAGS_OF_INTEREST[0]) //First Image
             {
-                MainAutoCode();
-                Move("left", 1000,0.6);
+                //Stuff here for Tag 1
+
             }
             else if(tagOfInterest.id == ID_TAGS_OF_INTEREST[1]) //Second Image
             {
-                MainAutoCode();
-                Move("left", 125,0.6);
+                //Stuff here for Tag 2
+
             }
             else if (tagOfInterest.id == ID_TAGS_OF_INTEREST[2]) //Third Image
             {
-                MainAutoCode();
-                Move("right", 800,0.6);
+                //Stuff here for Tag 3
+
             }
         }
-    }
-
-    void MainAutoCode()
-    {
-        MoveSlides("up", 500, 0.6);
-
-        Move("forward", 100, 0.5);
-
-        MoveSlides("down", 500, 0.6);
-
-        sleep(500);
-
-        coneGrabber.setPosition(servoClawReleasedPos);
-
-        sleep(500);
-
-        MoveSlides("up", 1000, 0.6);
-
-        Move("left", 120, 0.5);
-        Move("forward", 2300, 0.5);
-        Move("backward", 400, 0.5);
-
-        sleep(500);
-
-        Move("right", 500, 0.5);
-
-        MoveSlides("up", 1750, 0.6);
-
-        Move("forward",125,0.5);
-
-        sleep(200);
-
-        MoveSlides("down", 250, 0.6);
-
-        sleep(500);
-
-        coneGrabber.setPosition(servoClawPulledInPos);
-
-        sleep(500);
-
-        MoveSlides("up", 250, 0.6);
-
-        sleep(100);
-
-        Move("backward",125,0.5);
-
-        sleep(100);
-
-        MoveSlides("down", 1750, 0.6);
     }
 
     void tagToTelemetry(AprilTagDetection detection)
@@ -339,7 +289,6 @@ public class LeftSideParkingAuto extends LinearOpMode
         if (direction == "up"){
             wheelPower = -wheelPower;
         }
-
         spoolMotor.setPower(wheelPower);
         sleep(milliseconds);
         spoolMotor.setPower(0);

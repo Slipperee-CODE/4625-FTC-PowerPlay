@@ -27,45 +27,19 @@ public class MeepMeepTesting {
 
                                 .strafeLeft(4.5)
                                 .forward(50)
-
-
-                                .splineTo(new Vector2d(28, -3), 45)   
-
-                                //.strafeLeft(10)
-                                //.forward(5)
-                                //.back(5)
-                                //.strafeRight(12.5)
-
-                                /*
-
-                                .turn(Math.toRadians(-90))
-                                .forward(30)
-                                .back(30)
-                                .turn(Math.toRadians(90))
-
-
-                                .strafeLeft(12.5)
+                                .turn(Math.toRadians(40))
                                 .forward(5)
-                                .back(5)
-                                .strafeRight(12.5)
+                                .back(6)
+                                .turn(Math.toRadians(-130))
+                                .forward(27)
+                                .back(27)
+                                .turn(Math.toRadians(130))
+                                .forward(6)
+                                .back(6)
+                                .turn(Math.toRadians(-40))
+                                //.strafeLeft(22.5)
+                                .strafeRight(24)
 
-
-                                .turn(Math.toRadians(-90)) //Parks in the Center
-
-
-                                //Alternate Parkings
-
-                                // Parks on the Left
-                                //.back(23)
-
-                                // Parks on the Right
-                                .forward(23)
-
-                                */
-
-                                //.splineTo(new Vector2d(30, 30), 0)
-
-                                //some random comment for the sake of testing
                                 .build()
                 );
 

@@ -84,7 +84,7 @@ public class ItIsTimeToAutomaticallyTurn extends LinearOpMode
 
     void ResetAngle()
     {
-        lastAngle = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+        lastAngle = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
         currentAngle = 0;
     }
 
