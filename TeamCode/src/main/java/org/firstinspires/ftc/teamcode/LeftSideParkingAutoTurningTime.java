@@ -255,17 +255,17 @@ public class LeftSideParkingAutoTurningTime extends LinearOpMode
             if (tagOfInterest.id == ID_TAGS_OF_INTEREST[0]) //First Image
             {
                 MainAutoCode();
-                Move("left", 1250,0.6);
+                Move("forward", 1000,0.6);
             }
             else if(tagOfInterest.id == ID_TAGS_OF_INTEREST[1]) //Second Image
             {
                 MainAutoCode();
-                Move("left", 350,0.6);
+                Move("forward", 350,0.6);
             }
             else if (tagOfInterest.id == ID_TAGS_OF_INTEREST[2]) //Third Image
             {
                 MainAutoCode();
-                Move("right", 800,0.6);
+                Move("backward", 800,0.6);
             }
         }
     }
@@ -322,11 +322,59 @@ public class LeftSideParkingAutoTurningTime extends LinearOpMode
 
         MoveSlides("up",2000,0.8);
 
-        Move("forward",1000,0.8);
 
 
 
+        //PAST THIS POINT THE CODE IS FULLY UNTESTED AND COULD RUN THE ROBOT STRAIGHT INTO SEVERAL WALLS
+        sleep(500);
 
+        Move("forward",1000,0.5);
+
+        sleep(300);
+
+        MoveSlides("down",1000,0.8);
+
+        sleep(500);
+
+        coneGrabber.setPosition(servoClawReleasedPos);
+
+        sleep(500);
+
+        MoveSlides("up",1000,0.8);
+
+        sleep(300);
+
+        Move("backward",1000,0.5);
+
+        sleep(300);
+
+        Turn(-135);
+
+        sleep(300);
+
+        Move("forward",125,0.5);
+
+        sleep(200);
+
+        MoveSlides("down", 400, 0.8);
+
+        sleep(500);
+
+        coneGrabber.setPosition(servoClawPulledInPos);
+
+        sleep(500);
+
+        MoveSlides("up", 400, 0.8);
+
+        sleep(100);
+
+        Move("backward",125,0.5);
+
+        sleep(100);
+
+        MoveSlides("down", 1000, 0.8);
+
+        Turn(135);
     }
 
     void tagToTelemetry(AprilTagDetection detection)
