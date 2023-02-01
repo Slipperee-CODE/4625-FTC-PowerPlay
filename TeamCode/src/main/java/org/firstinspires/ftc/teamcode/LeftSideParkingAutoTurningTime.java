@@ -21,14 +21,19 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -36,8 +41,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-@Autonomous(name="Left Side Parking Auto", group="Linear Autonomous")
-public class LeftSideParkingAuto extends LinearOpMode
+@Autonomous(name="Left Side Parking Auto WITH TURNING", group="Linear Autonomous")
+public class LeftSideParkingAutoTurningTime extends LinearOpMode
 {
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
@@ -76,6 +81,13 @@ public class LeftSideParkingAuto extends LinearOpMode
 
     public static double servoClawReleasedPos = 0.7;
     public static double servoClawPulledInPos = -0.7;
+
+    private BNO055IMU imu;
+
+
+
+    private Orientation lastAngle = new Orientation();
+    private double currentAngle = 0.0;
 
     @Override
     public void runOpMode()
@@ -116,6 +128,18 @@ public class LeftSideParkingAuto extends LinearOpMode
         RightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         RightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         spoolMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO0155IMUCalibration.json";
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
+
+        imu = hardwareMap.get(BNO055IMU.class, "imu"); //We still need to name the imu on the robot this
+        imu.initialize(parameters);
 
         SpeedReduction = SpeedReduction/100;
 
@@ -268,9 +292,9 @@ public class LeftSideParkingAuto extends LinearOpMode
 
         sleep(500);
 
-        Move("right", 550, 0.5);
+        Turn(-45);
 
-        MoveSlides("up", 2400, 0.8);
+        MoveSlides("up", 2600, 0.8);
 
         Move("forward",125,0.5);
 
@@ -292,7 +316,17 @@ public class LeftSideParkingAuto extends LinearOpMode
 
         sleep(100);
 
-        MoveSlides("down", 2400, 0.8);
+        MoveSlides("down", 2600, 0.8);
+
+        Turn(135);
+
+        MoveSlides("up",2000,0.8);
+
+        Move("forward",1000,0.8);
+
+
+
+
     }
 
     void tagToTelemetry(AprilTagDetection detection)
@@ -360,4 +394,56 @@ public class LeftSideParkingAuto extends LinearOpMode
         } catch (Exception e){}
     }
 
+
+    void PowerAllTheMotors(double RightFrontPower, double RightBackPower, double LeftFrontPower, double LeftBackPower)
+    {
+        RightFront.setPower(RightFrontPower);
+        RightBack.setPower(RightBackPower);
+        LeftFront.setPower(LeftFrontPower);
+        LeftBack.setPower(LeftBackPower);
+    }
+
+    void ResetAngle()
+    {
+        lastAngle = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+        currentAngle = 0;
+    }
+
+    double GetAngle()
+    {
+        Orientation orientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+
+        double deltaAngle = orientation.firstAngle - lastAngle.firstAngle;
+
+        if (deltaAngle > 180) {
+            deltaAngle -= 360;
+
+        }
+        else if (deltaAngle <= -180){
+            deltaAngle += 360;
+        }
+
+        currentAngle += deltaAngle;
+        lastAngle = orientation;
+        telemetry.addData("gyro rotation", orientation.firstAngle);
+        return currentAngle;
+    }
+
+    void Turn (double degrees)
+    {
+        ResetAngle();
+
+        double error = degrees;
+
+        while (opModeIsActive() && Math.abs(error) > 2){
+            double motorPower = (error < 0 ? -0.2 : 0.2);
+            PowerAllTheMotors(motorPower, motorPower, -motorPower, -motorPower);
+            error = degrees - GetAngle();
+            telemetry.addData("error", error);
+            telemetry.update();
+        }
+
+        PowerAllTheMotors(0,0,0,0);
+
+    }
 }

@@ -85,7 +85,7 @@ public class CleanerTeleop extends OpMode
 
 
     double linearSlideY;
-    double theMaxPowerOfTheLinearSlide = 0.6;
+    double theMaxPowerOfTheLinearSlide = 1;
     double theMinPowerOfTheLinearSlide = -theMaxPowerOfTheLinearSlide;
 
 
@@ -110,6 +110,8 @@ public class CleanerTeleop extends OpMode
 
         spoolMotor = hardwareMap.dcMotor.get("spoolMotor"); //
 
+        spoolMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 
         coneGrabber = hardwareMap.servo.get("coneGrabber");
 
@@ -117,8 +119,8 @@ public class CleanerTeleop extends OpMode
         SpeedReduction = SpeedReduction/100;
 
 
-        RightFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        RightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        LeftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        LeftBack.setDirection(DcMotorSimple.Direction.REVERSE);
         //LeftBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
