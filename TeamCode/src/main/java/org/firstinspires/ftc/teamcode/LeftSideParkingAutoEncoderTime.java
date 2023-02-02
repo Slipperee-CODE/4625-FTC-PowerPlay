@@ -287,13 +287,15 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
 
         //Grab Cone
 
-        //Slides Up
+        //Slides Up a Bit
 
         Move("forward",2.25, 0.8);
 
         Move("backward",.5,0.8);
 
         Turn(-45);
+
+        //Slides Up
 
         Move("forward",0.6, 0.5);
 
