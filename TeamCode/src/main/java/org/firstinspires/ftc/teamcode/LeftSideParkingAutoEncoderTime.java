@@ -279,9 +279,12 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
 
     void MainAutoCode()
     {
+        int waitBetweenMovement = 200;
         //Slides Up
 
         Move("forward",.5, 0.8);
+
+        sleep(waitBetweenMovement);
 
         //Slides Down
 
@@ -291,13 +294,23 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
 
         Move("forward",2.25, 0.8);
 
+        sleep(waitBetweenMovement);
+
+
         Move("backward",.5,0.8);
 
+        sleep(waitBetweenMovement);
+
+
         Turn(-45);
+
+        sleep(waitBetweenMovement);
 
         //Slides Up
 
         Move("forward",0.6, 0.5);
+
+        sleep(waitBetweenMovement);
 
         //Slides Down
 
@@ -307,11 +320,18 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
 
         Move("backward",0.6, 0.5);
 
+        sleep(waitBetweenMovement);
+
+
         Turn(135);
+
+        sleep(waitBetweenMovement);
 
         //Slides Down a Bit
 
         Move("forward",1.2, 0.5);
+
+        sleep(waitBetweenMovement);
 
         //Slides Down Onto Cone Stack
 
@@ -321,11 +341,18 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
 
         Move("backward",1.2, 0.5);
 
+        sleep(waitBetweenMovement);
+
+
         Turn(-135);
+
+        sleep(waitBetweenMovement);
 
         //Slides Up
 
         Move("forward",0.6, 0.5);
+
+        sleep(waitBetweenMovement);
 
         //Slides Down
 
@@ -335,7 +362,12 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
 
         Move("backward",0.6, 0.5);
 
+        sleep(waitBetweenMovement);
+
+        
         Turn(135);
+
+        sleep(waitBetweenMovement);
 
         //Slides Down A Bit
     }
