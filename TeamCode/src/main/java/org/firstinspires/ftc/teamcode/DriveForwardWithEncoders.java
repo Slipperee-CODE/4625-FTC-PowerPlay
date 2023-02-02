@@ -72,11 +72,13 @@ public class DriveForwardWithEncoders extends LinearOpMode {
         RightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LeftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LeftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        spoolMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         RightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         RightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         LeftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         LeftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        spoolMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
 
@@ -99,17 +101,54 @@ public class DriveForwardWithEncoders extends LinearOpMode {
         while (opModeIsActive()) {
 
 
+            Move("forward",1,0.5);
+
             requestOpModeStop();
         }
     }
 
-    void Move(String direction, double distance, double power){
-        double wheelDiameter = 10; //in
+    void Move(String direction, double distanceInTiles, double power){
+        double wheelDiameter = 3.77953; //in
         double wheelCircumference = wheelDiameter * Math.PI;
-        double tileLength = 10; //in
+        double tileLength = 24; //in
+        double ticksPerRev = 537.7;
 
-        double fullWheelRotationForHowMuchOfATile = distance/tileLength;
+        double fullWheelRotationForHowMuchOfATile = wheelCircumference/tileLength;
+
+        double rotationsNeeded = distanceInTiles/fullWheelRotationForHowMuchOfATile;
+
+        RightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        RightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        LeftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        LeftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        RightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        RightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        LeftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        LeftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
+        int encoderTicksNeeded = (int)(ticksPerRev*rotationsNeeded);
+
+        if (direction == "backward")
+        {
+            encoderTicksNeeded = -encoderTicksNeeded;
+            power = -power;
+        }
+
+        RightFront.setTargetPosition(encoderTicksNeeded);
+        RightBack.setTargetPosition(encoderTicksNeeded);
+        LeftFront.setTargetPosition(encoderTicksNeeded);
+        LeftBack.setTargetPosition(encoderTicksNeeded);
+
+        PowerAllTheMotors(power,power,power,power);
+    }
+
+    void PowerAllTheMotors(double RightFrontPower, double RightBackPower, double LeftFrontPower, double LeftBackPower)
+    {
+        RightFront.setPower(RightFrontPower);
+        RightBack.setPower(RightBackPower);
+        LeftFront.setPower(LeftFrontPower);
+        LeftBack.setPower(LeftBackPower);
     }
 }
