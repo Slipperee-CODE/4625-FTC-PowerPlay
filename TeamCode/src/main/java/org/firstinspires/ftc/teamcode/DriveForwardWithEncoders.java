@@ -49,7 +49,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="DriveForwardAutonomous1.0", group="Linear Opmode")
+@Autonomous(name="DriveForwardAutonomousWithEncoders1.0", group="Linear Opmode")
 public class DriveForwardWithEncoders extends LinearOpMode {
 
     // Declare OpMode members.
@@ -74,11 +74,11 @@ public class DriveForwardWithEncoders extends LinearOpMode {
         LeftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         spoolMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        RightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        RightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        LeftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        LeftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        spoolMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        LeftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        LeftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
 
@@ -103,6 +103,10 @@ public class DriveForwardWithEncoders extends LinearOpMode {
 
             Move("forward",1,0.5);
 
+            while (LeftFront.isBusy() || RightFront.isBusy() || LeftBack.isBusy() || RightBack.isBusy()){
+                //Do nothing
+            }
+
             requestOpModeStop();
         }
     }
@@ -122,13 +126,13 @@ public class DriveForwardWithEncoders extends LinearOpMode {
         LeftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LeftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        RightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        RightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        LeftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        LeftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
 
 
         int encoderTicksNeeded = (int)(ticksPerRev*rotationsNeeded);
+
+        telemetry.addData("EncoderTicksNeeded",encoderTicksNeeded);
+        telemetry.update();
 
         if (direction == "backward")
         {
@@ -140,6 +144,11 @@ public class DriveForwardWithEncoders extends LinearOpMode {
         RightBack.setTargetPosition(encoderTicksNeeded);
         LeftFront.setTargetPosition(encoderTicksNeeded);
         LeftBack.setTargetPosition(encoderTicksNeeded);
+
+        RightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        RightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        LeftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        LeftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         PowerAllTheMotors(power,power,power,power);
     }

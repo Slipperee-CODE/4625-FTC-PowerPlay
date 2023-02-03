@@ -407,6 +407,12 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
         LeftBack.setTargetPosition(encoderTicksNeeded);
 
         PowerAllTheMotors(power,power,power,power);
+
+        while (LeftFront.isBusy() || RightFront.isBusy() || LeftBack.isBusy() || RightBack.isBusy()){
+            //Do nothing
+        }
+
+        sleep(200);
     }
 
     @SuppressLint("DefaultLocale")
