@@ -364,7 +364,7 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
 
         sleep(waitBetweenMovement);
 
-        
+
         Turn(135);
 
         sleep(waitBetweenMovement);
@@ -428,55 +428,29 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
     }
 
 
-
-    /*
-    void Move(String direction, int milliseconds, double wheelPower){
-        if (direction == "forward" || direction == "backward"){
-            if (direction == "backward"){
-                wheelPower = -wheelPower;
-            }
-
-            LeftFront.setPower(wheelPower);
-            LeftBack.setPower(wheelPower);
-            RightFront.setPower(wheelPower);
-            RightBack.setPower(wheelPower);
-            sleep(milliseconds);
-            LeftFront.setPower(0);
-            LeftBack.setPower(0);
-            RightFront.setPower(0);
-            RightBack.setPower(0);
-
-        }
-        else if (direction == "left" || direction == "right"){
-            if (direction == "left"){
-                wheelPower = -wheelPower;
-            }
-
-            LeftFront.setPower(wheelPower);
-            LeftBack.setPower(-wheelPower);
-            RightFront.setPower(-wheelPower);
-            RightBack.setPower(wheelPower);
-            sleep(milliseconds);
-            LeftFront.setPower(0);
-            LeftBack.setPower(0);
-            RightFront.setPower(0);
-            RightBack.setPower(0);
-        }
-    }
-     */
-
-
-    void MoveSlides(String direction, int milliseconds, double wheelPower)
+    void MoveSlides(double percentOfMaxHeight, double power)
     {
-        if (direction == "up"){
-            wheelPower = -wheelPower;
+        double encoderTicksForFullExtension = 10;
+
+        double encoderTicksNeededFromStart = percentOfMaxHeight * encoderTicksForFullExtension;
+
+        double encoderTicksNeededToMove = encoderTicksNeededFromStart - spoolMotor.getCurrentPosition();
+
+        double targetEncoderTicks = spoolMotor.getCurrentPosition() + encoderTicksNeededToMove;
+
+        spoolMotor.setTargetPosition((int) targetEncoderTicks);
+
+        spoolMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        power = (encoderTicksNeededToMove>0) ? (power):(-power);
+
+        spoolMotor.setPower(power);
+
+        while (spoolMotor.isBusy()){
+            //Do nothing
         }
 
-        spoolMotor.setPower(wheelPower);
-        sleep(milliseconds);
-        telemetry.addData("This","this");
-        telemetry.update();
-        spoolMotor.setPower(0);
+        sleep(200);
     }
 
 
