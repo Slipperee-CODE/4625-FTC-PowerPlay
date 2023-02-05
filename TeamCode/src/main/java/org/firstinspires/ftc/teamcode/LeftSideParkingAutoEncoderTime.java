@@ -154,6 +154,7 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
 
         LeftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         LeftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        spoolMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         spoolMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -252,7 +253,8 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
              */
 
 
-            MainAutoCode();
+            //MainAutoCode();
+            TestingCode();
         }
         else
         {
@@ -275,6 +277,27 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
                 //Slides Down A Bit
             }
         }
+    }
+
+    void TestingCode(){
+        MoveSlides(0.25,0.8);
+
+        sleep(500);
+
+        MoveSlides(0.5,0.8);
+
+        sleep(500);
+
+        MoveSlides(0.75,0.8);
+
+        sleep(500);
+
+        MoveSlides(1,0.8);
+
+        sleep(500);
+
+        MoveSlides(0,0.8);
+
     }
 
     void MainAutoCode()
@@ -387,12 +410,6 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
         LeftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LeftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        RightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        RightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        LeftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        LeftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-
         int encoderTicksNeeded = (int)(ticksPerRev*rotationsNeeded);
 
         if (direction == "backward")
@@ -405,6 +422,11 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
         RightBack.setTargetPosition(encoderTicksNeeded);
         LeftFront.setTargetPosition(encoderTicksNeeded);
         LeftBack.setTargetPosition(encoderTicksNeeded);
+
+        RightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        RightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        LeftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        LeftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         PowerAllTheMotors(power,power,power,power);
 
@@ -430,7 +452,7 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
 
     void MoveSlides(double percentOfMaxHeight, double power)
     {
-        double encoderTicksForFullExtension = 10;
+        double encoderTicksForFullExtension = 3763;
 
         double encoderTicksNeededFromStart = percentOfMaxHeight * encoderTicksForFullExtension;
 

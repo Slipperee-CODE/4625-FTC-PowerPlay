@@ -94,6 +94,10 @@ public class CleanerTeleop extends OpMode
     public static double servoClawReleasedPos = 0.75;
     public static double servoClawPulledInPos = -0.75;
 
+    boolean activeSlides = false;
+
+    int encoderTicksForFullExtension = 3763;
+
 
     @Override
     public void init()
@@ -103,6 +107,13 @@ public class CleanerTeleop extends OpMode
         RightFront = hardwareMap.dcMotor.get("RightFront"); // 0
         RightBack = hardwareMap.dcMotor.get("RightBack"); // 1
 
+        LeftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        LeftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        RightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        RightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
+
         LeftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LeftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         RightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -110,7 +121,12 @@ public class CleanerTeleop extends OpMode
 
         spoolMotor = hardwareMap.dcMotor.get("spoolMotor"); //
 
+        spoolMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         spoolMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+
 
 
         coneGrabber = hardwareMap.servo.get("coneGrabber");
@@ -195,15 +211,19 @@ public class CleanerTeleop extends OpMode
         }
 
 
-        if (gamepad1.a){
+        if (gamepad2.a){
             int motorPosition = LeftFront.getCurrentPosition();
-            telemetry.addData("MotorPos",motorPosition);
+            telemetry.addData("MotorPos Left Front",motorPosition);
             motorPosition = RightFront.getCurrentPosition();
-            telemetry.addData("MotorPos",motorPosition);
+            telemetry.addData("MotorPos Right Front",motorPosition);
             motorPosition = RightBack.getCurrentPosition();
-            telemetry.addData("MotorPos",motorPosition);
+            telemetry.addData("MotorPos Right Back",motorPosition);
             motorPosition = LeftBack.getCurrentPosition();
-            telemetry.addData("MotorPos",motorPosition);
+            telemetry.addData("MotorPos Left Back",motorPosition);
+            motorPosition = spoolMotor.getCurrentPosition();
+            telemetry.addData("MotorPos Spool Motor",motorPosition);
+
+
             telemetry.update();
         }
 
@@ -245,20 +265,42 @@ public class CleanerTeleop extends OpMode
     public void linearSlideCode()
     {
         if (linearSlideY > 0){
+            activeSlides = false;
+            spoolMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             spoolMotor.setPower(Math.min(linearSlideY, theMaxPowerOfTheLinearSlide));
         }
         else if (linearSlideY < 0){
+            activeSlides = false;
+            spoolMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             spoolMotor.setPower(Math.max(linearSlideY, theMinPowerOfTheLinearSlide));
         }
         else if (gamepad2.dpad_up){
+            activeSlides = false;
+            spoolMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             spoolMotor.setPower(-theMaxPowerOfTheLinearSlide/2);
         }
         else if (gamepad2.dpad_down){
+            activeSlides = false;
+            spoolMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             spoolMotor.setPower(theMaxPowerOfTheLinearSlide/2);
         }
-        else if (!gamepad1.dpad_up && !gamepad2.dpad_down && linearSlideY == 0)
+        else if (!gamepad1.dpad_up && !gamepad2.dpad_down && linearSlideY == 0 && !activeSlides)
         {
             spoolMotor.setPower(0);
+        }
+
+        if (gamepad2.x){
+            activeSlides = true;
+            spoolMotor.setTargetPosition(0);
+            spoolMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            spoolMotor.setPower(1);
+        }
+
+        if (gamepad2.y){
+            activeSlides = true;
+            spoolMotor.setTargetPosition(-encoderTicksForFullExtension);
+            spoolMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            spoolMotor.setPower(-1);
         }
     }
 
