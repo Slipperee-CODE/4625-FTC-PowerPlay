@@ -253,8 +253,9 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
              */
 
 
-            //MainAutoCode();
-            TestingCode();
+            MainAutoCode();
+            MoveSlides(0.0,0.8);
+            //TestingCode();
         }
         else
         {
@@ -263,18 +264,21 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
                 MainAutoCode();
                 Move("forward",1.2,0.6);
 
+                sleep(200);
+
                 //Slides Down Onto Cone Stack
+                MoveSlides(0.0,0.8);
             }
             else if(tagOfInterest.id == ID_TAGS_OF_INTEREST[1]) //Second Image
             {
                 MainAutoCode();
+                MoveSlides(0.0,0.8);
             }
             else if (tagOfInterest.id == ID_TAGS_OF_INTEREST[2]) //Third Image
             {
                 MainAutoCode();
                 Move("backward",1.2,0.6);
-
-                //Slides Down A Bit
+                MoveSlides(0.0,0.8);
             }
         }
     }
@@ -297,102 +301,129 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
         sleep(500);
 
         MoveSlides(0,0.8);
-
     }
 
     void MainAutoCode()
     {
         int waitBetweenMovement = 200;
+
         //Slides Up
+        MoveSlides(0.25,0.8);
 
         Move("forward",.5, 0.8);
 
         sleep(waitBetweenMovement);
 
         //Slides Down
-
-        //Grab Cone
-
-        //Slides Up a Bit
-
-        Move("forward",2.25, 0.8);
+        MoveSlides(0.1,0.8);
 
         sleep(waitBetweenMovement);
 
+        //Grab Cone
+        coneGrabber.setPosition(servoClawReleasedPos);
+
+        sleep(waitBetweenMovement);
+
+        //Slides Up a Bit
+        MoveSlides(0.25,0.8);
+
+        Move("forward",2.15, 0.5);
+
+        sleep(waitBetweenMovement);
 
         Move("backward",.5,0.8);
 
         sleep(waitBetweenMovement);
-
 
         Turn(-45);
 
         sleep(waitBetweenMovement);
 
         //Slides Up
+        MoveSlides(1,0.8);
 
         Move("forward",0.6, 0.5);
 
         sleep(waitBetweenMovement);
 
         //Slides Down
-
-        //Release Cone
-
-        //Slides Up
-
-        Move("backward",0.6, 0.5);
+        MoveSlides(.9,0.8);
 
         sleep(waitBetweenMovement);
 
+        //Release Cone
+        coneGrabber.setPosition(servoClawPulledInPos);
+
+        sleep(waitBetweenMovement);
+
+        //Slides Up
+        MoveSlides(1,0.8);
+
+        Move("backward",0.6, 0.5);
+
+        //Slides Down a Bit
+        MoveSlides(0.5,0.8);
+
+        sleep(waitBetweenMovement);
 
         Turn(135);
 
         sleep(waitBetweenMovement);
-
-        //Slides Down a Bit
 
         Move("forward",1.2, 0.5);
 
         sleep(waitBetweenMovement);
 
         //Slides Down Onto Cone Stack
+        MoveSlides(0.25,0.8);
+
+        sleep(waitBetweenMovement);
 
         //Grab Cone
+        coneGrabber.setPosition(servoClawReleasedPos);
+
+        sleep(waitBetweenMovement);
 
         //Slides Up a Bit
+        MoveSlides(0.5,0.8);
 
         Move("backward",1.2, 0.5);
 
         sleep(waitBetweenMovement);
-
 
         Turn(-135);
 
         sleep(waitBetweenMovement);
 
         //Slides Up
+        MoveSlides(1,0.8);
 
         Move("forward",0.6, 0.5);
 
         sleep(waitBetweenMovement);
 
         //Slides Down
+        MoveSlides(.9,0.8);
+
+        sleep(waitBetweenMovement);
 
         //Release Cone
+        coneGrabber.setPosition(servoClawPulledInPos);
+
+        sleep(waitBetweenMovement);
 
         //Slides Up
+        MoveSlides(1,0.8);
 
         Move("backward",0.6, 0.5);
 
         sleep(waitBetweenMovement);
 
-
         Turn(135);
 
-        sleep(waitBetweenMovement);
+        MoveSlides(0.5,0.8);
 
-        //Slides Down A Bit
+        sleep(waitBetweenMovement);
     }
 
     void Move(String direction, double distanceInTiles, double power){
