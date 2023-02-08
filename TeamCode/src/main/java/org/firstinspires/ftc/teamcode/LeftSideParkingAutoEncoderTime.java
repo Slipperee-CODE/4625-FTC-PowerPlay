@@ -262,7 +262,7 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
             if (tagOfInterest.id == ID_TAGS_OF_INTEREST[0]) //First Image
             {
                 MainAutoCode();
-                Move("forward",1.2,0.6);
+                Move("forward",.9,0.6);
 
                 sleep(200);
 
@@ -277,7 +277,7 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
             else if (tagOfInterest.id == ID_TAGS_OF_INTEREST[2]) //Third Image
             {
                 MainAutoCode();
-                Move("backward",1.2,0.6);
+                Move("backward",.8,0.6);
                 MoveSlides(0.0,0.8);
             }
         }
@@ -308,122 +308,64 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
         int waitBetweenMovement = 200;
 
         //Slides Up
-        MoveSlides(0.25,0.8);
+        MoveSlides(0.2,0.8);
 
-        Move("forward",.5, 0.8);
+        Move("forward",.15, 0.5);
 
-        sleep(waitBetweenMovement);
+        sleep(waitBetweenMovement + 750);
 
         //Slides Down
-        MoveSlides(0.1,0.8);
+        MoveSlides(0.02,0.8);
 
         sleep(waitBetweenMovement);
 
         //Grab Cone
         coneGrabber.setPosition(servoClawReleasedPos);
+        telemetry.addData("yoo",coneGrabber.getPosition());
+        telemetry.update();
 
         sleep(waitBetweenMovement);
 
         //Slides Up a Bit
         MoveSlides(0.25,0.8);
 
-        Move("forward",2.15, 0.5);
+        Move("forward",2.50, 0.3);
 
         sleep(waitBetweenMovement);
 
-        Move("backward",.5,0.8);
+        Move("backward",.5,0.5);
 
         sleep(waitBetweenMovement);
 
-        Turn(-45);
+        Turn(-43);
 
         sleep(waitBetweenMovement);
 
         //Slides Up
-        MoveSlides(1,0.8);
-
-        Move("forward",0.6, 0.5);
-
-        sleep(waitBetweenMovement);
-
-        //Slides Down
         MoveSlides(.9,0.8);
 
-        sleep(waitBetweenMovement);
+        Move("forward",0.35, 0.5);
+
+        sleep(waitBetweenMovement + 300);
+
+        //Slides Down
+        MoveSlides(.77,0.8);
+
+        sleep(waitBetweenMovement + 300);
 
         //Release Cone
         coneGrabber.setPosition(servoClawPulledInPos);
 
-        sleep(waitBetweenMovement);
+        sleep(waitBetweenMovement + 300);
 
         //Slides Up
-        MoveSlides(1,0.8);
+        MoveSlides(.9,0.8);
 
-        Move("backward",0.6, 0.5);
+        Move("backward",0.35, 0.5);
 
         //Slides Down a Bit
-        MoveSlides(0.5,0.8);
-
-        sleep(waitBetweenMovement);
 
         Turn(135);
-
-        sleep(waitBetweenMovement);
-
-        Move("forward",1.2, 0.5);
-
-        sleep(waitBetweenMovement);
-
-        //Slides Down Onto Cone Stack
-        MoveSlides(0.25,0.8);
-
-        sleep(waitBetweenMovement);
-
-        //Grab Cone
-        coneGrabber.setPosition(servoClawReleasedPos);
-
-        sleep(waitBetweenMovement);
-
-        //Slides Up a Bit
-        MoveSlides(0.5,0.8);
-
-        Move("backward",1.2, 0.5);
-
-        sleep(waitBetweenMovement);
-
-        Turn(-135);
-
-        sleep(waitBetweenMovement);
-
-        //Slides Up
-        MoveSlides(1,0.8);
-
-        Move("forward",0.6, 0.5);
-
-        sleep(waitBetweenMovement);
-
-        //Slides Down
-        MoveSlides(.9,0.8);
-
-        sleep(waitBetweenMovement);
-
-        //Release Cone
-        coneGrabber.setPosition(servoClawPulledInPos);
-
-        sleep(waitBetweenMovement);
-
-        //Slides Up
-        MoveSlides(1,0.8);
-
-        Move("backward",0.6, 0.5);
-
-        sleep(waitBetweenMovement);
-
-        Turn(135);
-
-        MoveSlides(0.5,0.8);
-
-        sleep(waitBetweenMovement);
     }
 
     void Move(String direction, double distanceInTiles, double power){
@@ -462,7 +404,7 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
         PowerAllTheMotors(power,power,power,power);
 
         while (LeftFront.isBusy() || RightFront.isBusy() || LeftBack.isBusy() || RightBack.isBusy()){
-            //Do nothing
+            //yo
         }
 
         sleep(200);
@@ -559,8 +501,8 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
 
         double error = degrees;
 
-        while (opModeIsActive() && Math.abs(error) > 2){
-            double motorPower = (error < 0 ? -0.2 : 0.2);
+        while (opModeIsActive() && Math.abs(error) > 1){
+            double motorPower = (error < 0 ? -0.3 : 0.3);
             PowerAllTheMotors(motorPower, motorPower, -motorPower, -motorPower);
             error = degrees - GetAngle();
             telemetry.addData("error", error);
