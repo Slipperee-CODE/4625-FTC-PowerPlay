@@ -157,6 +157,11 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
         spoolMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         spoolMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        LeftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        LeftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        RightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        RightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
 
         /*
@@ -277,7 +282,7 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
             else if (tagOfInterest.id == ID_TAGS_OF_INTEREST[2]) //Third Image
             {
                 MainAutoCode();
-                Move("backward",.8,0.6);
+                Move("backward",.9,0.6);
                 MoveSlides(0.0,0.8);
             }
         }
@@ -337,14 +342,16 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
 
         sleep(waitBetweenMovement);
 
-        Turn(-43);
+        Turn(-39.5);
 
         sleep(waitBetweenMovement);
 
         //Slides Up
         MoveSlides(.9,0.8);
 
-        Move("forward",0.35, 0.5);
+        Move("forward",0.4, 0.5);
+
+        Move("backward",0.03,0.5);
 
         sleep(waitBetweenMovement + 300);
 
@@ -361,11 +368,11 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
         //Slides Up
         MoveSlides(.9,0.8);
 
-        Move("backward",0.35, 0.5);
+        Move("backward",0.37, 0.5);
 
         //Slides Down a Bit
 
-        Turn(135);
+        Turn(90 + 39.5);
     }
 
     void Move(String direction, double distanceInTiles, double power){
