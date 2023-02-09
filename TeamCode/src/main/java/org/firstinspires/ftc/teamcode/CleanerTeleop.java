@@ -292,12 +292,13 @@ public class CleanerTeleop extends OpMode
         }
 
         if (gamepad2.a){
-            encoderTicksAllTheWayDown = spoolMotor.getCurrentPosition();
+            spoolMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            spoolMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
 
         if (gamepad2.x){
             activeSlides = true;
-            spoolMotor.setTargetPosition(encoderTicksAllTheWayDown);
+            spoolMotor.setTargetPosition(0);
             spoolMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             spoolMotor.setPower(1);
         }

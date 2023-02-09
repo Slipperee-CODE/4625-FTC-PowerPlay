@@ -318,7 +318,7 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
         //Slides Up
         MoveSlides(0.2,0.8);
 
-        Move("forward",.15, 0.5, false);
+        Move("forward",.15, 0.3, true);
 
         sleep(waitBetweenMovement + 750);
 
@@ -337,7 +337,7 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
         //Slides Up a Bit
         MoveSlides(0.25,0.8);
 
-        Move("forward",2.50, 0.3, true); //THIS LINE REQUIRES THE GRADIENT
+        Move("forward",2.50, 0.7, true); //THIS LINE REQUIRES THE GRADIENT
 
         sleep(waitBetweenMovement);
 
