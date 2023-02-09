@@ -267,7 +267,7 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
             if (tagOfInterest.id == ID_TAGS_OF_INTEREST[0]) //First Image
             {
                 MainAutoCode();
-                Move("forward",.9,0.6);
+                Move("forward",.9,0.6, false);
 
                 sleep(200);
 
@@ -282,7 +282,7 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
             else if (tagOfInterest.id == ID_TAGS_OF_INTEREST[2]) //Third Image
             {
                 MainAutoCode();
-                Move("backward",.9,0.6);
+                Move("backward",.9,0.6, false);
                 MoveSlides(0.0,0.8);
             }
         }
@@ -308,6 +308,9 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
         MoveSlides(0,0.8);
     }
 
+
+    //ADD GRADIENT INCREASE IN SPEED OVER TIME (MAKE IT TOGGLABLE)
+
     void MainAutoCode()
     {
         int waitBetweenMovement = 200;
@@ -315,7 +318,7 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
         //Slides Up
         MoveSlides(0.2,0.8);
 
-        Move("forward",.15, 0.5);
+        Move("forward",.15, 0.5, false);
 
         sleep(waitBetweenMovement + 750);
 
@@ -334,11 +337,11 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
         //Slides Up a Bit
         MoveSlides(0.25,0.8);
 
-        Move("forward",2.50, 0.3);
+        Move("forward",2.50, 0.3, true); //THIS LINE REQUIRES THE GRADIENT
 
         sleep(waitBetweenMovement);
 
-        Move("backward",.5,0.5);
+        Move("backward",.5,0.5, false);
 
         sleep(waitBetweenMovement);
 
@@ -349,9 +352,9 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
         //Slides Up
         MoveSlides(.9,0.8);
 
-        Move("forward",0.4, 0.5);
+        Move("forward",0.4, 0.5, false);
 
-        Move("backward",0.03,0.5);
+        Move("backward",0.03,0.5, false);
 
         sleep(waitBetweenMovement + 300);
 
@@ -368,18 +371,19 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
         //Slides Up
         MoveSlides(.9,0.8);
 
-        Move("backward",0.37, 0.5);
+        Move("backward",0.37, 0.5, false);
 
         //Slides Down a Bit
 
         Turn(90 + 39.5);
     }
 
-    void Move(String direction, double distanceInTiles, double power){
+    void Move(String direction, double distanceInTiles, double maxPower, boolean forwardGradient){ //ADD IN BOOL FOR GRADIENT FORWARDS, USE A SIN WAVE
         double wheelDiameter = 3.77953; //in
         double wheelCircumference = wheelDiameter * Math.PI;
         double tileLength = 24; //in
         double ticksPerRev = 537.7;
+        double startingGradientPower = 0.1;
 
         double fullWheelRotationForHowMuchOfATile = wheelCircumference/tileLength;
 
@@ -395,7 +399,7 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
         if (direction == "backward")
         {
             encoderTicksNeeded = -encoderTicksNeeded;
-            power = -power;
+            maxPower = -maxPower;
         }
 
         RightFront.setTargetPosition(encoderTicksNeeded);
@@ -408,10 +412,25 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
         LeftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         LeftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        PowerAllTheMotors(power,power,power,power);
+        if (forwardGradient) {
+            PowerAllTheMotors(startingGradientPower,startingGradientPower,startingGradientPower,startingGradientPower);
+        }
+        else {
+            PowerAllTheMotors(maxPower,maxPower,maxPower,maxPower);
+        }
+
 
         while (LeftFront.isBusy() || RightFront.isBusy() || LeftBack.isBusy() || RightBack.isBusy()){
-            //yo
+            if (forwardGradient) {
+                double avgEncoderTick = (LeftBack.getCurrentPosition() + LeftBack.getCurrentPosition() + LeftBack.getCurrentPosition() + LeftBack.getCurrentPosition())/4;
+                double distanceTraveledPercent = avgEncoderTick/encoderTicksNeeded;
+                double powerForAllMotors = Math.min(Math.sqrt(Math.sin(distanceTraveledPercent * Math.PI)) + startingGradientPower, maxPower);
+
+                PowerAllTheMotors(powerForAllMotors,powerForAllMotors,powerForAllMotors,powerForAllMotors);
+
+                telemetry.addData("Power For All Motors On the Straight", powerForAllMotors);
+                telemetry.update();
+            }
         }
 
         sleep(200);

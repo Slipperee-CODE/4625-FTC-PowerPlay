@@ -98,6 +98,8 @@ public class CleanerTeleop extends OpMode
 
     int encoderTicksForFullExtension = 3763;
 
+    int encoderTicksAllTheWayDown = 0;
+
 
     @Override
     public void init()
@@ -211,7 +213,7 @@ public class CleanerTeleop extends OpMode
         }
 
 
-        if (gamepad2.a){
+        if (gamepad1.a){
             int motorPosition = LeftFront.getCurrentPosition();
             telemetry.addData("MotorPos Left Front",motorPosition);
             motorPosition = RightFront.getCurrentPosition();
@@ -289,9 +291,13 @@ public class CleanerTeleop extends OpMode
             spoolMotor.setPower(0);
         }
 
+        if (gamepad2.a){
+            encoderTicksAllTheWayDown = spoolMotor.getCurrentPosition();
+        }
+
         if (gamepad2.x){
             activeSlides = true;
-            spoolMotor.setTargetPosition(0);
+            spoolMotor.setTargetPosition(encoderTicksAllTheWayDown);
             spoolMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             spoolMotor.setPower(1);
         }
