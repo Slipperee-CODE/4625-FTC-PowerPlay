@@ -423,7 +423,7 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
         while (LeftFront.isBusy() || RightFront.isBusy() || LeftBack.isBusy() || RightBack.isBusy()){
             if (forwardGradient) {
                 double avgEncoderTick = (LeftBack.getCurrentPosition() + LeftBack.getCurrentPosition() + LeftBack.getCurrentPosition() + LeftBack.getCurrentPosition())/4;
-                double distanceTraveledPercent = avgEncoderTick/encoderTicksNeeded;
+                double distanceTraveledPercent = Math.min(avgEncoderTick/encoderTicksNeeded,1);
                 double powerForAllMotors = Math.min(Math.sqrt(Math.sin(distanceTraveledPercent * Math.PI)) + startingGradientPower, maxPower);
 
                 PowerAllTheMotors(powerForAllMotors,powerForAllMotors,powerForAllMotors,powerForAllMotors);
