@@ -371,7 +371,7 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
         //Slides Up
         MoveSlides(.9,0.8);
 
-        Move("backward",0.37, 0.5, false);
+        Move("backward",0.345, 0.5, false);
 
         //Slides Down a Bit
 
