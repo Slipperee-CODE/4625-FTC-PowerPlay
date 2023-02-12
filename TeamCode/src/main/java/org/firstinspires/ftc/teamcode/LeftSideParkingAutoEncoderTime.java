@@ -413,7 +413,12 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
         LeftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         if (forwardGradient) {
-            PowerAllTheMotors(startingGradientPower,startingGradientPower,startingGradientPower,startingGradientPower);
+            if (direction == "backward"){
+                PowerAllTheMotors(-startingGradientPower,-startingGradientPower,-startingGradientPower,-startingGradientPower);
+            }else{
+                PowerAllTheMotors(startingGradientPower,startingGradientPower,startingGradientPower,startingGradientPower);
+            }
+
         }
         else {
             PowerAllTheMotors(maxPower,maxPower,maxPower,maxPower);
@@ -425,6 +430,11 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
                 double avgEncoderTick = (LeftBack.getCurrentPosition() + LeftBack.getCurrentPosition() + LeftBack.getCurrentPosition() + LeftBack.getCurrentPosition())/4;
                 double distanceTraveledPercent = Math.min(avgEncoderTick/encoderTicksNeeded,1);
                 double powerForAllMotors = Math.min(Math.sqrt(Math.sin(distanceTraveledPercent * Math.PI)) + startingGradientPower, maxPower);
+
+                if (direction == "backward")
+                {
+                    powerForAllMotors = -powerForAllMotors;
+                }
 
                 PowerAllTheMotors(powerForAllMotors,powerForAllMotors,powerForAllMotors,powerForAllMotors);
 
