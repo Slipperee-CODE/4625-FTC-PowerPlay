@@ -259,6 +259,7 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
 
 
             MainAutoCode();
+            Move("left", 200, 0.5);
             MoveSlides(0.0,0.8);
             //TestingCode();
         }
@@ -266,51 +267,42 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
         {
             if (tagOfInterest.id == ID_TAGS_OF_INTEREST[0]) //First Image
             {
+
                 MainAutoCode();
                 Move("left", 200, 0.5);
                 sleep(100);
-                Move("forward",1.1,0.6, true);
+                Move("forward",1.05,0.6, true);
 
                 sleep(200);
 
                 //Slides Down Onto Cone Stack
                 MoveSlides(0.0,0.8);
+
+
             }
             else if(tagOfInterest.id == ID_TAGS_OF_INTEREST[1]) //Second Image
             {
+
                 MainAutoCode();
                 Move("left", 200, 0.5);
                 MoveSlides(0.0,0.8);
             }
             else if (tagOfInterest.id == ID_TAGS_OF_INTEREST[2]) //Third Image
             {
+
                 MainAutoCode();
                 Move("left", 200, 0.5);
                 sleep(100);
-                Move("backward",1.1,0.6, true);
+                Move("backward",1.05,0.6, true);
                 MoveSlides(0.0,0.8);
             }
         }
     }
 
     void TestingCode(){
-        MoveSlides(0.25,0.8);
+        Move("backward", 1, 0.5, true);
 
         sleep(500);
-
-        MoveSlides(0.5,0.8);
-
-        sleep(500);
-
-        MoveSlides(0.75,0.8);
-
-        sleep(500);
-
-        MoveSlides(1,0.8);
-
-        sleep(500);
-
-        MoveSlides(0,0.8);
     }
 
 
