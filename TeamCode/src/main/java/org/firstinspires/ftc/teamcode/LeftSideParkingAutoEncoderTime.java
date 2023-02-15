@@ -267,7 +267,9 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
             if (tagOfInterest.id == ID_TAGS_OF_INTEREST[0]) //First Image
             {
                 MainAutoCode();
-                Move("forward",.9,0.6, false);
+                Move("left", 200, 0.5);
+                sleep(100);
+                Move("forward",1.1,0.6, true);
 
                 sleep(200);
 
@@ -277,12 +279,15 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
             else if(tagOfInterest.id == ID_TAGS_OF_INTEREST[1]) //Second Image
             {
                 MainAutoCode();
+                Move("left", 200, 0.5);
                 MoveSlides(0.0,0.8);
             }
             else if (tagOfInterest.id == ID_TAGS_OF_INTEREST[2]) //Third Image
             {
                 MainAutoCode();
-                Move("backward",.9,0.6, false);
+                Move("left", 200, 0.5);
+                sleep(100);
+                Move("backward",1.1,0.6, true);
                 MoveSlides(0.0,0.8);
             }
         }
@@ -345,7 +350,7 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
 
         sleep(waitBetweenMovement);
 
-        Turn(-39.5);
+        Turn(-44);
 
         sleep(waitBetweenMovement);
 
@@ -375,7 +380,7 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
 
         //Slides Down a Bit
 
-        Turn(90 + 39.5);
+        Turn(90 + 44);
     }
 
     void Move(String direction, double distanceInTiles, double maxPower, boolean forwardGradient){ //ADD IN BOOL FOR GRADIENT FORWARDS, USE A SIN WAVE
@@ -524,6 +529,40 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
         lastAngle = orientation;
         telemetry.addData("gyro rotation", orientation.firstAngle);
         return currentAngle;
+    }
+
+    void Move(String direction, int milliseconds, double wheelPower){
+        if (direction == "forward" || direction == "backward"){
+            if (direction == "backward"){
+                wheelPower = -wheelPower;
+            }
+
+            LeftFront.setPower(wheelPower);
+            LeftBack.setPower(wheelPower);
+            RightFront.setPower(wheelPower);
+            RightBack.setPower(wheelPower);
+            sleep(milliseconds);
+            LeftFront.setPower(0);
+            LeftBack.setPower(0);
+            RightFront.setPower(0);
+            RightBack.setPower(0);
+
+        }
+        else if (direction == "left" || direction == "right"){
+            if (direction == "left"){
+                wheelPower = -wheelPower;
+            }
+
+            LeftFront.setPower(wheelPower);
+            LeftBack.setPower(-wheelPower);
+            RightFront.setPower(-wheelPower);
+            RightBack.setPower(wheelPower);
+            sleep(milliseconds);
+            LeftFront.setPower(0);
+            LeftBack.setPower(0);
+            RightFront.setPower(0);
+            RightBack.setPower(0);
+        }
     }
 
     void Turn (double degrees)
