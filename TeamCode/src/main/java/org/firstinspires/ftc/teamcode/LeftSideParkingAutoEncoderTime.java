@@ -259,42 +259,33 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
 
 
             MainAutoCode();
-            Move("left", 200, 0.5);
-            MoveSlides(0.0,0.8);
+            Turn(90 + 44);
+            Move("left", 450, 0.3);
             //TestingCode();
         }
         else
         {
             if (tagOfInterest.id == ID_TAGS_OF_INTEREST[0]) //First Image
             {
-
                 MainAutoCode();
-                Move("left", 200, 0.5);
-                sleep(100);
-                Move("forward",1.05,0.6, true);
-
+                Turn(90 + 44);
+                Move("left", 450, 0.3);
                 sleep(200);
-
-                //Slides Down Onto Cone Stack
-                MoveSlides(0.0,0.8);
-
-
+                Move("forward",1.05,0.6, true);
             }
             else if(tagOfInterest.id == ID_TAGS_OF_INTEREST[1]) //Second Image
             {
-
                 MainAutoCode();
-                Move("left", 200, 0.5);
-                MoveSlides(0.0,0.8);
+                Turn(90 + 44);
+                Move("left", 450, 0.3);
             }
             else if (tagOfInterest.id == ID_TAGS_OF_INTEREST[2]) //Third Image
             {
-
                 MainAutoCode();
-                Move("left", 200, 0.5);
-                sleep(100);
-                Move("backward",1.05,0.6, true);
-                MoveSlides(0.0,0.8);
+                Turn(-(90-44));
+                Move("right", 450, 0.3);
+                sleep(200);
+                Move("forward",1.05,0.6, true);
             }
         }
     }
@@ -305,8 +296,6 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
         sleep(500);
     }
 
-
-    //ADD GRADIENT INCREASE IN SPEED OVER TIME (MAKE IT TOGGLABLE)
 
     void MainAutoCode()
     {
@@ -370,9 +359,7 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
 
         Move("backward",0.345, 0.5, false);
 
-        //Slides Down a Bit
-
-        Turn(90 + 44);
+        MoveSlides(.5,0.8);
     }
 
     void Move(String direction, double distanceInTiles, double maxPower, boolean forwardGradient){ //ADD IN BOOL FOR GRADIENT FORWARDS, USE A SIN WAVE
