@@ -260,6 +260,9 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
 
             MainAutoCode();
             Turn(90 + 44);
+
+            sleep(100);
+
             Move("left", 450, 0.3);
             //TestingCode();
         }
@@ -268,21 +271,24 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
             if (tagOfInterest.id == ID_TAGS_OF_INTEREST[0]) //First Image
             {
                 MainAutoCode();
-                Turn(90 + 44);
+                Turn(90 + 42);
                 Move("left", 450, 0.3);
-                sleep(200);
+                sleep(300);
                 Move("forward",1.05,0.6, true);
             }
             else if(tagOfInterest.id == ID_TAGS_OF_INTEREST[1]) //Second Image
             {
                 MainAutoCode();
                 Turn(90 + 44);
+
+                sleep(100);
+
                 Move("left", 450, 0.3);
             }
             else if (tagOfInterest.id == ID_TAGS_OF_INTEREST[2]) //Third Image
             {
                 MainAutoCode();
-                Turn(-(90-44));
+                Turn(-(90+44));
                 Move("right", 450, 0.3);
                 sleep(200);
                 Move("forward",1.05,0.6, true);
@@ -352,14 +358,14 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
         //Release Cone
         coneGrabber.setPosition(servoClawPulledInPos);
 
-        sleep(waitBetweenMovement + 300);
+        sleep(waitBetweenMovement + 150);
 
         //Slides Up
         MoveSlides(.9,0.8);
 
         Move("backward",0.345, 0.5, false);
 
-        MoveSlides(.5,0.8);
+        MoveSlides(.7,0.8);
     }
 
     void Move(String direction, double distanceInTiles, double maxPower, boolean forwardGradient){ //ADD IN BOOL FOR GRADIENT FORWARDS, USE A SIN WAVE
