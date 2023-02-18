@@ -272,9 +272,9 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
             {
                 MainAutoCode();
                 Turn(90 + 42);
-                Move("left", 450, 0.3);
+                Move("left", 425, 0.3);
                 sleep(300);
-                Move("forward",1.05,0.6, true);
+                Move("forward",.94,0.6, true);
             }
             else if(tagOfInterest.id == ID_TAGS_OF_INTEREST[1]) //Second Image
             {
@@ -283,15 +283,18 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
 
                 sleep(100);
 
-                Move("left", 450, 0.3);
+                Move("left", 425, 0.3);
             }
             else if (tagOfInterest.id == ID_TAGS_OF_INTEREST[2]) //Third Image
             {
                 MainAutoCode();
-                Turn(-(90+44));
-                Move("right", 450, 0.3);
+                Turn(-40);
+
+                sleep(100);
+
+                Move("right", 630, 0.15);
                 sleep(200);
-                Move("forward",1.05,0.6, true);
+                Move("forward",1.0,0.6, true);
             }
         }
     }
@@ -329,11 +332,11 @@ public class LeftSideParkingAutoEncoderTime extends LinearOpMode
         //Slides Up a Bit
         MoveSlides(0.25,0.8);
 
-        Move("forward",2.50, 0.7, true); //THIS LINE REQUIRES THE GRADIENT
+        Move("forward",2.05, 0.7, true); //THIS LINE REQUIRES THE GRADIENT
 
         sleep(waitBetweenMovement);
 
-        Move("backward",.5,0.5, false);
+        Move("backward",.05,0.5, false);
 
         sleep(waitBetweenMovement);
 
